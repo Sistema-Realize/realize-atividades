@@ -15,7 +15,7 @@ export default async function callback(
     `${process.env.AUTH0_BASE_URL}/api/auth/callback` as string;
 
   try {
-    await axios.post(`${auth0Domain}/oauth/token`, {
+    const response = await axios.post(`${auth0Domain}/oauth/token`, {
       grant_type: "authorization_code",
       client_id: clientId,
       client_secret: clientSecret,
@@ -23,7 +23,13 @@ export default async function callback(
       redirect_uri: redirectUri,
     });
 
-    // Armazene o token ou informações do usuário conforme necessário
+    const { id_token } = response.data;
+
+    // Armazene o token em um cookie
+    res.setHeader(
+      "Set-Cookie",
+      `token=${id_token}; HttpOnly; Path=/; Max-Age=3600`
+    );
     res.redirect("/form");
   } catch {
     res.status(500).json({ error: "Authentication failed" });
