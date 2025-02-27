@@ -15,6 +15,7 @@ interface Data {
 
 export default function Result() {
   const [data, setData] = useState<Data | null>(null);
+  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 
   useEffect(() => {
@@ -28,18 +29,27 @@ export default function Result() {
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
 
-    // Simular a verificação do pagamento via webhook
-    const checkPaymentStatus = async () => {
-      // Aqui você pode fazer uma chamada para verificar o status do pagamento
-      // ou atualizar o estado com base em uma notificação de webhook
-      // Exemplo: setPaymentConfirmed(true) quando o pagamento for confirmado
-    };
+    // Verificar o status do pagamento periodicamente
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(
+          "/api/checkPayment?paymentId=YOUR_PAYMENT_ID"
+        );
+        const result = await response.json();
+        if (result.status === "RECEIVED") {
+          setPaymentConfirmed(true);
+          clearInterval(interval);
+        }
+      } catch (error) {
+        console.error("Erro ao verificar status do pagamento:", error);
+      }
+    }, 5000); // Verifica a cada 5 segundos
 
-    checkPaymentStatus();
+    return () => clearInterval(interval);
   }, []);
 
   const handleDownload = () => {
-    if (data) {
+    if (data && paymentConfirmed) {
       const content = `
         Competência: ${data.competencia}\n
         Questões:\n
@@ -85,8 +95,10 @@ export default function Result() {
             </div>
             <button
               onClick={handleDownload}
-              className="button-primary mt-4 w-full bg-gray-400 cursor-not-allowed"
-              disabled
+              className={`button-primary mt-4 w-full ${
+                paymentConfirmed ? "" : "bg-gray-400 cursor-not-allowed"
+              }`}
+              disabled={!paymentConfirmed}
             >
               Baixar como Word
             </button>

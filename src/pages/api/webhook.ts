@@ -5,9 +5,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const { event, payment } = req.body;
 
     if (event === "PAYMENT_RECEIVED") {
-      // Atualize o status do pagamento no seu banco de dados
+      // Atualize o status do pagamento no seu banco de dados ou estado global
       console.log(`Pagamento recebido: ${payment.id}`);
-      // Aqui você pode adicionar lógica para atualizar o status do pagamento no banco de dados
+      // Aqui você pode adicionar lógica para atualizar o estado do pagamento
     }
 
     res.status(200).json({ success: true });
