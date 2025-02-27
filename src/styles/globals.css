@@ -6,19 +6,47 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --primary-color: #e63946;
+  --secondary-color: #f1faee;
+  --accent-color: #a8dadc;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1d3557;
+    --foreground: #f1faee;
+    --primary-color: #e63946;
+    --secondary-color: #457b9d;
+    --accent-color: #a8dadc;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@layer components {
+  .card {
+    @apply bg-white shadow-md rounded-lg p-6 border border-gray-200;
+  }
+
+  .button-primary {
+    @apply bg-[var(--primary-color)] text-white font-bold py-2 px-4 rounded;
+  }
+
+  .button-secondary {
+    @apply bg-[var(--secondary-color)] text-[var(--primary-color)] font-bold py-2 px-4 rounded border border-[var(--primary-color)];
+  }
+
+  .input-field {
+    @apply w-full p-2 border border-gray-300 rounded focus:ring-[var(--primary-color)] focus:border-[var(--primary-color)];
+  }
+
+  .container {
+    @apply max-w-md mx-auto p-4;
+  }
 }
