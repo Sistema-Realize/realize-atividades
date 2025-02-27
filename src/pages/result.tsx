@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import fileDownload from "js-file-download";
 import { FaCreditCard } from "react-icons/fa";
+import { isPaymentConfirmed } from "./api/webhook"; // Importe a função para verificar o estado do pagamento
 
 interface Questao {
   id: number;
@@ -29,23 +30,8 @@ export default function Result() {
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
 
-    // Verificar o status do pagamento periodicamente
-    const interval = setInterval(async () => {
-      try {
-        const response = await fetch(
-          "/api/checkPayment?paymentId=YOUR_PAYMENT_ID"
-        );
-        const result = await response.json();
-        if (result.status === "RECEIVED") {
-          setPaymentConfirmed(true);
-          clearInterval(interval);
-        }
-      } catch (error) {
-        console.error("Erro ao verificar status do pagamento:", error);
-      }
-    }, 5000); // Verifica a cada 5 segundos
-
-    return () => clearInterval(interval);
+    // Verificar o estado do pagamento
+    setPaymentConfirmed(isPaymentConfirmed());
   }, []);
 
   const handleDownload = () => {
