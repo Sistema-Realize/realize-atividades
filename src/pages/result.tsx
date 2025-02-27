@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import fileDownload from "js-file-download";
 import { FaCreditCard } from "react-icons/fa";
-import { isPaymentConfirmed } from "./api/webhook"; // Importe a função para verificar o estado do pagamento
 
 interface Questao {
   id: number;
@@ -30,8 +29,12 @@ export default function Result() {
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
 
-    // Verificar o estado do pagamento
-    setPaymentConfirmed(isPaymentConfirmed());
+    // Simular a chamada do webhook e habilitar o botão após 3 segundos
+    const timer = setTimeout(() => {
+      setPaymentConfirmed(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleDownload = () => {
