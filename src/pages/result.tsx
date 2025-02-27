@@ -28,6 +28,15 @@ export default function Result() {
     fetch("/api/upload")
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
+
+    // Simular a verificação do pagamento via webhook
+    const checkPaymentStatus = async () => {
+      // Aqui você pode fazer uma chamada para verificar o status do pagamento
+      // ou atualizar o estado com base em uma notificação de webhook
+      // Exemplo: setPaymentConfirmed(true) quando o pagamento for confirmado
+    };
+
+    checkPaymentStatus();
   }, []);
 
   const handleDownload = () => {
@@ -46,8 +55,6 @@ export default function Result() {
   const handlePayment = () => {
     // Abrir o link de pagamento do Asaas em uma nova aba
     window.open("https://sandbox.asaas.com/c/ro4fw90olj1m5o31", "_blank");
-    // Simular confirmação de pagamento para fins de teste
-    setPaymentConfirmed(true);
   };
 
   return (
@@ -77,24 +84,15 @@ export default function Result() {
                 Pagar com Asaas
               </button>
             </div>
-            {paymentConfirmed ? (
-              <button
-                onClick={handleDownload}
-                className="button-primary mt-4 w-full"
-              >
-                Baixar como Word
-              </button>
-            ) : (
-              <div className="flex justify-center items-center mt-4">
-                <FaSpinner
-                  className="animate-spin text-primary-color"
-                  size={24}
-                />
-                <span className="ml-2">
-                  Aguardando confirmação de pagamento...
-                </span>
-              </div>
-            )}
+            <button
+              onClick={handleDownload}
+              className={`button-primary mt-4 w-full ${
+                paymentConfirmed ? "" : "bg-gray-400 cursor-not-allowed"
+              }`}
+              disabled={!paymentConfirmed}
+            >
+              Baixar como Word
+            </button>
             <div className="mt-4">
               <h2 className="text-lg font-semibold">Arquivos Enviados:</h2>
               <ul className="list-disc list-inside text-sm text-gray-700">
