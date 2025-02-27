@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fileDownload from "js-file-download";
-import { FaCreditCard, FaSpinner } from "react-icons/fa";
+import { FaCreditCard } from "react-icons/fa";
 
 interface Questao {
   id: number;
@@ -15,7 +15,6 @@ interface Data {
 
 export default function Result() {
   const [data, setData] = useState<Data | null>(null);
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 
   useEffect(() => {
@@ -40,7 +39,7 @@ export default function Result() {
   }, []);
 
   const handleDownload = () => {
-    if (data && paymentConfirmed) {
+    if (data) {
       const content = `
         Competência: ${data.competencia}\n
         Questões:\n
@@ -86,10 +85,8 @@ export default function Result() {
             </div>
             <button
               onClick={handleDownload}
-              className={`button-primary mt-4 w-full ${
-                paymentConfirmed ? "" : "bg-gray-400 cursor-not-allowed"
-              }`}
-              disabled={!paymentConfirmed}
+              className="button-primary mt-4 w-full bg-gray-400 cursor-not-allowed"
+              disabled
             >
               Baixar como Word
             </button>
