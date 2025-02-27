@@ -6,16 +6,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    const { userId, paymentMethod } = req.body;
+    const { userId, paymentMethod, value } = req.body;
 
     try {
       const response = await axios.post(
-        "https://www.asaas.com/api/v3/payments",
+        "https://sandbox.asaas.com/api/v3/payments",
         {
           customer: userId,
           billingType: paymentMethod,
-          value: 100.0, // Substitua pelo valor real
+          value: value, // Certifique-se de que o valor está correto
           dueDate: new Date().toISOString().split("T")[0], // Data de vencimento
+          description: "Pagamento de teste", // Adicione uma descrição se necessário
         },
         {
           headers: {
