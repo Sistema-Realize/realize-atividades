@@ -19,22 +19,32 @@ export default function Result() {
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 
   useEffect(() => {
-    // Buscar dados da API fake
+    // Fetch fake data
     fetch("/api/fakeData")
       .then((res) => res.json())
       .then((result) => setData(result.data));
 
-    // Simule a obtenção dos arquivos enviados
+    // Fetch uploaded files
     fetch("/api/upload")
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
 
-    // Simular a chamada do webhook e habilitar o botão após 3 segundos
-    const timer = setTimeout(() => {
-      setPaymentConfirmed(true);
-    }, 3000);
+    // Polling to check payment status
+    const checkPaymentStatus = () => {
+      const paymentId = "ro4fw90olj1m5o31"; // Use the actual payment ID
+      fetch(`/api/checkPayment?paymentId=${paymentId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "RECEIVED") { // Adjust based on actual response
+            setPaymentConfirmed(true);
+          }
+        })
+        .catch((error) => console.error("Error checking payment status:", error));
+    };
 
-    return () => clearTimeout(timer);
+    const interval = setInterval(checkPaymentStatus, 5000); // Check every 5 seconds
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleDownload = () => {
@@ -51,7 +61,7 @@ export default function Result() {
   };
 
   const handlePayment = () => {
-    // Abrir o link de pagamento do Asaas em uma nova aba
+    // Open the Asaas payment link in a new tab
     window.open("https://sandbox.asaas.com/c/ro4fw90olj1m5o31", "_blank");
   };
 
