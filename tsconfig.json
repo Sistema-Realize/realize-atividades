@@ -23,6 +23,6 @@
     "**/*.tsx",
     "src/utils/auth0.js",
     "src/middleware/middleware.js"
-  ],
+, "src/pages/api/auth/[auth0]/route.js", "src/pages/api/auth/callback.js"  ],
   "exclude": ["node_modules"]
 }

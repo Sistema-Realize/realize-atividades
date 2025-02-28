@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-// Simulação de um banco de dados ou estado global
+// Estado global para armazenar pagamento (não persistente após reinício do servidor)
 let paymentStatus = false;
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -8,9 +8,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const { event, payment } = req.body;
 
     if (event === "PAYMENT_RECEIVED") {
-      // Atualize o status do pagamento no seu banco de dados ou estado global
       console.log(`Pagamento recebido: ${payment.id}`);
-      paymentStatus = true; // Atualize o estado para indicar que o pagamento foi confirmado
+      paymentStatus = true;
     }
 
     res.status(200).json({ success: true });
@@ -20,6 +19,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+// Função para expor o estado do pagamento
 export function isPaymentConfirmed() {
   return paymentStatus;
 }

@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-// Remova a importação de jwt se não for utilizada
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"; // Optional: For decoding JWTs
 
 export default async function callback(
   req: NextApiRequest,
@@ -15,6 +14,7 @@ export default async function callback(
     `${process.env.AUTH0_BASE_URL}/api/auth/callback` as string;
 
   try {
+    // Exchange the authorization code for tokens
     const response = await axios.post(`${auth0Domain}/oauth/token`, {
       grant_type: "authorization_code",
       client_id: clientId,
@@ -25,13 +25,19 @@ export default async function callback(
 
     const { id_token } = response.data;
 
-    // Armazene o token em um cookie
+    // Optionally decode the ID token to get user information
+    const decodedToken = jwt.decode(id_token);
+
+    // Store the token in a cookie or session
     res.setHeader(
       "Set-Cookie",
       `token=${id_token}; HttpOnly; Path=/; Max-Age=3600`
     );
+
+    // Redirect to the form page instead of the dashboard
     res.redirect("/form");
-  } catch {
+  } catch (error) {
+    console.error("Error during authentication:", error);
     res.status(500).json({ error: "Authentication failed" });
   }
 }

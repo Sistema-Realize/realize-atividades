@@ -15,39 +15,37 @@ interface Data {
 
 export default function Result() {
   const [data, setData] = useState<Data | null>(null);
-  const [paymentConfirmed, setPaymentConfirmed] = useState(false);
+  const [paymentConfirmed, setPaymentConfirmed] = useState<boolean>(
+    typeof window !== "undefined" ? localStorage.getItem("paymentConfirmed") === "true" : false
+  );
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
 
   useEffect(() => {
-    // Fetch fake data
     fetch("/api/fakeData")
       .then((res) => res.json())
       .then((result) => setData(result.data));
 
-    // Fetch uploaded files
     fetch("/api/upload")
       .then((res) => res.json())
       .then((data) => setUploadedFiles(data.files));
 
-    // Polling to check payment status
-    const checkPaymentStatus = () => {
-      const paymentId = "ro4fw90olj1m5o31"; // Use the actual payment ID
-      fetch(`/api/checkPayment?paymentId=${paymentId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.status === "RECEIVED") { // Adjust based on actual response
-            setPaymentConfirmed(true);
-          }
-        })
-        .catch((error) => console.error("Error checking payment status:", error));
+    const checkPaymentStatus = async () => {
+      const response = await fetch("/api/checkPayment");
+      const result = await response.json();
+
+      if (result.status === "RECEIVED") {
+        setPaymentConfirmed(true);
+        localStorage.setItem("paymentConfirmed", "true");
+      }
     };
 
-    const interval = setInterval(checkPaymentStatus, 5000); // Check every 5 seconds
+    if (!paymentConfirmed) {
+      const interval = setInterval(checkPaymentStatus, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [paymentConfirmed]);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleDownload = () => {
+    const handleDownload = () => {
     if (data && paymentConfirmed) {
       const content = `
         Competência: ${data.competencia}\n
@@ -61,7 +59,6 @@ export default function Result() {
   };
 
   const handlePayment = () => {
-    // Open the Asaas payment link in a new tab
     window.open("https://sandbox.asaas.com/c/ro4fw90olj1m5o31", "_blank");
   };
 

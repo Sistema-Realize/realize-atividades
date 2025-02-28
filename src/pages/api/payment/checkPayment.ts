@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const { userId, paymentMethod, value } = req.body;
 
@@ -14,26 +11,22 @@ export default async function handler(
         {
           customer: userId,
           billingType: paymentMethod,
-          value: value, // Certifique-se de que o valor está correto
-          dueDate: new Date().toISOString().split("T")[0], // Data de vencimento
-          description: "Pagamento de teste", // Adicione uma descrição se necessário
+          value: value,
+          dueDate: new Date().toISOString().split("T")[0],
+          description: "Pagamento de teste",
         },
         {
           headers: {
             "Content-Type": "application/json",
-            access_token: process.env.ASAAS_API_KEY, // Use uma variável de ambiente para a chave da API
+            access_token: process.env.ASAAS_API_KEY,
           },
         }
       );
 
-      res
-        .status(200)
-        .json({ success: true, paymentUrl: response.data.invoiceUrl });
+      res.status(200).json({ success: true, paymentId: response.data.id });
     } catch (error) {
       console.error("Erro ao criar pagamento:", error);
-      res
-        .status(500)
-        .json({ success: false, message: "Erro ao criar pagamento" });
+      res.status(500).json({ success: false, message: "Erro ao criar pagamento" });
     }
   } else {
     res.setHeader("Allow", ["POST"]);
