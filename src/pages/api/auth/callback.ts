@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
-import jwt from "jsonwebtoken"; // Optional: For decoding JWTs
 
 export default async function callback(
   req: NextApiRequest,
@@ -24,9 +23,6 @@ export default async function callback(
     });
 
     const { id_token } = response.data;
-
-    // Optionally decode the ID token to get user information
-    const decodedToken = jwt.decode(id_token);
 
     // Store the token in a cookie or session
     res.setHeader(

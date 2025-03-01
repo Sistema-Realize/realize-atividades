@@ -12,6 +12,7 @@ export default function me(req: NextApiRequest, res: NextApiResponse) {
     const decoded = jwt.decode(token);
     res.status(200).json({ user: decoded });
   } catch (error) {
+    console.error("Failed to decode token:", error);
     res.status(500).json({ error: "Failed to decode token" });
   }
 }
