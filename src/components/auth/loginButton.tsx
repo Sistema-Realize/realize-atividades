@@ -1,12 +1,16 @@
-"use client";
-import Link from "next/link";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 export default function LoginButton() {
+  const { error, isLoading } = useUser();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>{error.message}</div>;
+
   return (
-    <Link href="/api/auth/login">
-      <button className="px-4 py-2 bg-green-500 text-white rounded">
-        Entrar
-      </button>
-    </Link>
+    <div>
+      <a href="/form">Form</a>
+      <a href="/api/auth/logout">Logout</a>
+    </div>
   );
 }

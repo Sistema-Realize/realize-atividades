@@ -18,23 +18,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/utils/auth0.js",
-    "src/middleware/middleware.js",
-    "src/pages/api/auth/me.js",
-    "**/*.ts",
-    "**/*.tsx",
-    "src/pages/api/auth/[auth]/[...auth0].js",
-    "src/pages/api/auth/callback.js",
-    "src/pages/api/auth/storeUser.js",
-    "src/pages/api/auth/me.jsx",
-    "src/pages/api/auth/[auth]/[...auth0].js",
-    "src/pages/api/auth/[auth]/[...auth0].js",
-    "src/pages/api/auth/me.js",
-    "src/midleware/auth0.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
 }
