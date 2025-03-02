@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import fileDownload from "js-file-download";
-import { FaCreditCard } from "react-icons/fa";
+import PaymentButton from "@/components/paymentButton";
 
 interface Questao {
   id: number;
@@ -15,51 +15,59 @@ interface Data {
 
 export default function Result() {
   const [data, setData] = useState<Data | null>(null);
-  const [paymentConfirmed, setPaymentConfirmed] = useState<boolean>(
-    typeof window !== "undefined" ? localStorage.getItem("paymentConfirmed") === "true" : false
-  );
+  const [paymentConfirmed, setPaymentConfirmed] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
+  // Obtém os dados do usuário autenticado
   useEffect(() => {
-    fetch("/api/fakeData")
-      .then((res) => res.json())
-      .then((result) => setData(result.data));
-
-    fetch("/api/upload")
-      .then((res) => res.json())
-      .then((data) => setUploadedFiles(data.files));
-
-    const checkPaymentStatus = async () => {
-      const response = await fetch("/api/checkPayment");
-      const result = await response.json();
-
-      if (result.status === "RECEIVED") {
-        setPaymentConfirmed(true);
-        localStorage.setItem("paymentConfirmed", "true");
+    async function fetchUser() {
+      try {
+        const response = await fetch("/api/auth/me");
+        const result = await response.json();
+        if (result.user) {
+          setUserId(result.user.sub);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar usuário:", error);
       }
-    };
-
-    if (!paymentConfirmed) {
-      const interval = setInterval(checkPaymentStatus, 5000);
-      return () => clearInterval(interval);
     }
-  }, [paymentConfirmed]);
+    fetchUser();
+  }, []);
 
-    const handleDownload = () => {
-    if (data && paymentConfirmed) {
-      const content = `
-        Competência: ${data.competencia}\n
-        Questões:\n
-        ${data.questoes.map((questao) => `- ${questao.texto}`).join("\n")}
-      `;
-      fileDownload(content, "resultado.doc");
-    } else {
+  // Obtém os dados fictícios e arquivos enviados
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const resData = await fetch("/api/fakeData");
+        const fakeData = await resData.json();
+        if (fakeData.data) {
+          setData(fakeData.data);
+        }
+
+        const resFiles = await fetch("/api/upload");
+        const fileData = await resFiles.json();
+        setUploadedFiles(Array.isArray(fileData.files) ? fileData.files : []);
+      } catch (error) {
+        console.error("Erro ao buscar dados:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  // Função para baixar o arquivo como Word
+  const handleDownload = () => {
+    if (!data || !paymentConfirmed) {
       alert("Pagamento não confirmado.");
+      return;
     }
-  };
 
-  const handlePayment = () => {
-    window.open("https://sandbox.asaas.com/c/ro4fw90olj1m5o31", "_blank");
+    const content = `
+      Competência: ${data.competencia}\n
+      Questões:\n
+      ${data.questoes.map((questao) => `- ${questao.texto}`).join("\n")}
+    `;
+    fileDownload(content, "resultado.doc");
   };
 
   return (
@@ -68,7 +76,7 @@ export default function Result() {
         <h1 className="text-3xl font-bold text-primary-color text-center mb-4">
           Resultado
         </h1>
-        {data && (
+        {data ? (
           <div>
             <h2 className="text-lg font-semibold">Competência:</h2>
             <p className="mb-4">{data.competencia}</p>
@@ -81,13 +89,13 @@ export default function Result() {
             <div className="mt-4">
               <h2 className="text-lg font-semibold">Opções de Pagamento:</h2>
               <p className="mb-2">Valor: R$ {data.valor.toFixed(2)}</p>
-              <button
-                onClick={handlePayment}
-                className="button-primary w-full flex items-center justify-center gap-2"
-              >
-                <FaCreditCard />
-                Pagar com Asaas
-              </button>
+              {userId ? (
+                <PaymentButton userId={userId} paymentMethod="CREDIT_CARD" />
+              ) : (
+                <p className="text-sm text-gray-500">
+                  Carregando informações do usuário...
+                </p>
+              )}
             </div>
             <button
               onClick={handleDownload}
@@ -100,13 +108,19 @@ export default function Result() {
             </button>
             <div className="mt-4">
               <h2 className="text-lg font-semibold">Arquivos Enviados:</h2>
-              <ul className="list-disc list-inside text-sm text-gray-700">
-                {uploadedFiles.map((file, index) => (
-                  <li key={index}>{file}</li>
-                ))}
-              </ul>
+              {uploadedFiles.length > 0 ? (
+                <ul className="list-disc list-inside text-sm text-gray-700">
+                  {uploadedFiles.map((file, index) => (
+                    <li key={index}>{file}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500 text-sm">Nenhum arquivo enviado.</p>
+              )}
             </div>
           </div>
+        ) : (
+          <p className="text-center text-gray-500">Carregando dados...</p>
         )}
       </div>
     </div>

@@ -12,6 +12,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "types": ["node"],
     "incremental": true,
     "paths": {
       "@/*": ["./src/*"]
@@ -22,7 +23,17 @@
     "**/*.ts",
     "**/*.tsx",
     "src/utils/auth0.js",
-    "src/middleware/middleware.js"
-, "src/pages/api/auth/[auth0]/route.js", "src/pages/api/auth/callback.js"  ],
+    "src/middleware/middleware.js",
+    "src/pages/api/auth/me.js",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/api/auth/[auth]/[...auth0].js",
+    "src/pages/api/auth/callback.js",
+    "src/pages/api/auth/storeUser.js",
+    "src/pages/api/auth/me.jsx",
+    "src/pages/api/auth/[auth]/[...auth0].js",
+    "src/pages/api/auth/[auth]/[...auth0].js",
+    "src/pages/api/auth/me.js"
+  ],
   "exclude": ["node_modules"]
 }
