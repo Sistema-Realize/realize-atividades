@@ -1,7 +1,7 @@
 import axios from "axios";
-
+import { config } from "../config/environment";
 const axiosInstance = axios.create({
-  baseURL: process.env.BASE_URL,
+  baseURL: config.NEXT_PUBLIC_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

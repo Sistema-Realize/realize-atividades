@@ -15,7 +15,7 @@ interface Data {
 
 export default function Result() {
   const [data, setData] = useState<Data | null>(null);
-  const [paymentConfirmed, setPaymentConfirmed] = useState<boolean>(false);
+  const [paymentConfirmed] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
 

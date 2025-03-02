@@ -1,4 +1,5 @@
 import axios from "axios";
+import { config } from "../../../config/environment";
 
 // Definir tipos específicos para os parâmetros
 interface UserData {
@@ -12,11 +13,11 @@ interface UserData {
 const createAuth0User = async (userData: UserData) => {
   try {
     const response = await axios.post(
-      `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users`,
+      `${config.AUTH0_ISSUER_BASE_URL}/api/v2/users`,
       userData,
       {
         headers: {
-          Authorization: `Bearer ${process.env.AUTH0_MANAGEMENT_API_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${config.AUTH0_MANAGEMENT_API_ACCESS_TOKEN}`,
           "Content-Type": "application/json",
         },
       }

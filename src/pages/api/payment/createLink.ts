@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { getUserInfo } from "../auth/storeUser";
+import { config } from "../../../config/environment";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,7 +12,7 @@ export default async function handler(
   try {
     // Obter Access Token
     const { data: tokenData } = await axios.get(
-      `${process.env.BASE_URL}/api/auth/getAccessToken`
+      `${config.NEXT_PUBLIC_BASE_URL}/api/auth/getAccessToken`
     );
     const accessToken = tokenData.accessToken;
 
@@ -25,7 +26,7 @@ export default async function handler(
       value: 100.0,
       billingType: paymentMethod,
       dueDateLimitDays: 10,
-      callback: { successUrl: `${process.env.BASE_URL}/result` },
+      callback: { successUrl: `${config.NEXT_PUBLIC_BASE_URL}/result` },
     };
 
     // Criar link de pagamento no Asaas
@@ -35,7 +36,7 @@ export default async function handler(
       {
         headers: {
           "Content-Type": "application/json",
-          access_token: process.env.ASAAS_API_KEY,
+          access_token: config.ASAAS_API_KEY,
         },
       }
     );

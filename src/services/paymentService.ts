@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getUserCookie } from "../utils/axiosInstance";
+import { getUserInfo } from "../utils/auth";
 import { config } from "../config/environment";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ export const createPaymentLink = async (
     return res.status(405).json({ message: "Método não permitido" });
   }
 
-  const user = getUserCookie(req, res);
+  const user = await getUserInfo(req.body.userId);
   if (!user) {
     return res.status(401).json({ error: "Usuário não autenticado" });
   }

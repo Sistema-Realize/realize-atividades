@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { FaCreditCard } from "react-icons/fa";
+import { config } from "../config/environment";
 
 interface PaymentButtonProps {
   userId: string;
@@ -16,10 +17,13 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
   const handlePayment = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.post("/api/payment/createLink", {
-        userId,
-        paymentMethod,
-      });
+      const { data } = await axios.post(
+        `${config.NEXT_PUBLIC_BASE_URL}/api/payment/createLink`,
+        {
+          userId,
+          paymentMethod,
+        }
+      );
       window.location.href = data.paymentLink;
     } catch (error) {
       console.error("Erro ao iniciar pagamento:", error);

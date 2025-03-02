@@ -9,20 +9,15 @@ export const config = {
   AUTH0_MANAGEMENT_API_ACCESS_TOKEN:
     process.env.AUTH0_MANAGEMENT_API_ACCESS_TOKEN || "",
 
+  // **✅ Adicione esta linha**
+  AUTH0_DOMAIN:
+    process.env.AUTH0_DOMAIN || process.env.AUTH0_ISSUER_BASE_URL || "",
+
   // Configurações do Asaas API
   ASAAS_API_KEY: process.env.ASAAS_API_KEY || "",
   ASAAS_ACCESS_TOKEN: process.env.ASAAS_ACCESS_TOKEN || "",
   NEXT_PUBLIC_ASAAS_API_URL:
     process.env.NEXT_PUBLIC_ASAAS_API_URL || "https://api-sandbox.asaas.com/v3",
-
-  // Configurações públicas do Auth0 para o frontend
-  NEXT_PUBLIC_AUTH0_DOMAIN: process.env.NEXT_PUBLIC_AUTH0_DOMAIN || "",
-  NEXT_PUBLIC_AUTH0_CLIENT_ID: process.env.NEXT_PUBLIC_AUTH0_CLIENT_ID || "",
-  NEXT_PUBLIC_AUTH0_CALLBACK_URL:
-    process.env.NEXT_PUBLIC_AUTH0_CALLBACK_URL ||
-    "http://localhost:3000/api/auth/callback",
-  NEXT_PUBLIC_AUTH0_LOGOUT_URL:
-    process.env.NEXT_PUBLIC_AUTH0_LOGOUT_URL || "http://localhost:3000",
 
   // Configuração pública do Next.js
   NEXT_PUBLIC_BASE_URL:
