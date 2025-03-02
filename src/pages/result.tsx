@@ -18,6 +18,9 @@ export default function Result() {
   const [paymentConfirmed] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState<
+    "CREDIT_CARD" | "BOLETO" | "PIX"
+  >("CREDIT_CARD");
 
   // Obtém os dados do usuário autenticado
   useEffect(() => {
@@ -89,8 +92,22 @@ export default function Result() {
             <div className="mt-4">
               <h2 className="text-lg font-semibold">Opções de Pagamento:</h2>
               <p className="mb-2">Valor: R$ {data.valor.toFixed(2)}</p>
+              <select
+                value={paymentMethod}
+                onChange={(e) =>
+                  setPaymentMethod(
+                    e.target.value as "CREDIT_CARD" | "BOLETO" | "PIX"
+                  )
+                }
+                className="mb-4"
+              >
+                <option value="CREDIT_CARD">Cartão de Crédito</option>
+                <option value="BOLETO">Boleto</option>
+                <option value="PIX">PIX</option>
+                {/* Adicione mais opções conforme necessário */}
+              </select>
               {userId ? (
-                <PaymentButton userId={userId} paymentMethod="CREDIT_CARD" />
+                <PaymentButton userId={userId} paymentMethod={paymentMethod} />
               ) : (
                 <p className="text-sm text-gray-500">
                   Carregando informações do usuário...
