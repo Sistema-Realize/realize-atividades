@@ -13,7 +13,7 @@ interface UserData {
 const createAuth0User = async (userData: UserData) => {
   try {
     const response = await axios.post(
-      `${config.AUTH0_ISSUER_BASE_URL}/api/v2/users`,
+      `${config.AUTH0_DOMAIN}/api/v2/users`,
       userData,
       {
         headers: {
@@ -34,10 +34,10 @@ const findOrCreateAuth0User = async (userData: UserData) => {
   try {
     // Verificar se o usuário já existe
     const existingUserResponse = await axios.get(
-      `${process.env.AUTH0_ISSUER_BASE_URL}/api/v2/users-by-email?email=${userData.email}`,
+      `${config.AUTH0_DOMAIN}/api/v2/users-by-email?email=${userData.email}`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.AUTH0_MANAGEMENT_API_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${config.AUTH0_MANAGEMENT_API_ACCESS_TOKEN}`,
         },
       }
     );

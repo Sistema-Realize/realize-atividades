@@ -2,14 +2,12 @@ export const config = {
   // Configurações do Auth0
   AUTH0_SECRET: process.env.AUTH0_SECRET || "uma-string-segura",
   AUTH0_BASE_URL: process.env.AUTH0_BASE_URL || "http://localhost:3000",
-  AUTH0_ISSUER_BASE_URL: process.env.AUTH0_ISSUER_BASE_URL || "",
   AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID || "",
   AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET || "",
   AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE || "",
   AUTH0_MANAGEMENT_API_ACCESS_TOKEN:
     process.env.AUTH0_MANAGEMENT_API_ACCESS_TOKEN || "",
 
-  // **✅ Adicione esta linha**
   AUTH0_DOMAIN:
     process.env.AUTH0_DOMAIN || process.env.AUTH0_ISSUER_BASE_URL || "",
 

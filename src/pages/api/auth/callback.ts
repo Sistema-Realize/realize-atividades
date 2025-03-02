@@ -7,14 +7,14 @@ export default async function callback(
   res: NextApiResponse
 ): Promise<void> {
   const { code } = req.query as { code: string };
-  const auth0Domain = config.AUTH0_ISSUER_BASE_URL as string;
+
   const clientId = config.AUTH0_CLIENT_ID as string;
   const clientSecret = config.AUTH0_CLIENT_SECRET as string;
   const redirectUri = `${config.AUTH0_BASE_URL}/api/auth/callback` as string;
 
   try {
     // Exchange the authorization code for tokens
-    const response = await axios.post(`${auth0Domain}/oauth/token`, {
+    const response = await axios.post(`${config.AUTH0_DOMAIN}/oauth/token`, {
       grant_type: "authorization_code",
       client_id: clientId,
       client_secret: clientSecret,

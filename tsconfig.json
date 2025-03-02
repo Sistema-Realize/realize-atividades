@@ -33,7 +33,8 @@
     "src/pages/api/auth/me.jsx",
     "src/pages/api/auth/[auth]/[...auth0].js",
     "src/pages/api/auth/[auth]/[...auth0].js",
-    "src/pages/api/auth/me.js"
+    "src/pages/api/auth/me.js",
+    "src/midleware/auth0.js"
   ],
   "exclude": ["node_modules"]
 }
