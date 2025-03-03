@@ -1,7 +1,5 @@
-import React from "react";
+import Form from "@/components/form";
 
-const Form = () => {
-  return <div>Peito de veia</div>;
-};
-
-export default Form;
+export default function FormPage() {
+  return <Form />;
+}
