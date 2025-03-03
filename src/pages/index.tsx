@@ -1,9 +1,12 @@
-import React from "react";
+/* eslint-disable @next/next/no-html-link-for-pages */
+
 import { useUser } from "@auth0/nextjs-auth0/client";
 import LoginButton from "@/components/auth/loginButton";
+import FormPage from "./form";
 
 export default function LoginPage() {
   const { user, error, isLoading } = useUser();
+  const user_id = user?.sub ?? "";
 
   if (isLoading) {
     return (
@@ -26,25 +29,8 @@ export default function LoginPage() {
   }
 
   if (user) {
-    return <LoginButton />;
+    return <FormPage user_id={user_id} />;
   }
 
-  return (
-    <div className="container min-h-screen flex items-center justify-center">
-      <div className="card form-background w-full max-w-sm">
-        <h1 className="text-2xl font-bold text-center mb-6 text-[var(--foreground)]">
-          Bem-vindo
-        </h1>
-
-        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-
-        <a
-          href="/form"
-          className="button-primary w-full flex items-center justify-center"
-        >
-          Login
-        </a>
-      </div>
-    </div>
-  );
+  return <LoginButton />;
 }
