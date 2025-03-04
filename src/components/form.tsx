@@ -11,7 +11,9 @@ export default function Form({ user_id }: { user_id: string }) {
         {/* Exemplo de campo de formulário */}
         <div className="space-y-4">
           <div>
-            <div>{user_id}</div>
+            <div className="text-sm text-[var(--dark-muted-color)] mb-2">
+              {user_id}
+            </div>
             <label className="block text-[var(--dark-muted-color)] mb-2">
               Campo de exemplo
             </label>
