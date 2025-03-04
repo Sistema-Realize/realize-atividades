@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Form({ user_id }: { user_id: string }) {
+export default function ActivitiesForm({ user_id }: { user_id: string }) {
   return (
     <div className="container min-h-screen flex items-center justify-center">
       <div className="card form-background w-full max-w-sm">

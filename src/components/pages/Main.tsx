@@ -1,6 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import LoginButton from "@/components/auth/LoginButton";
-import FormPage from "@/components/FormPage";
+import FormPage from "@/components/pages/Form";
 
 export default function MainPage() {
   const { user, error, isLoading } = useUser();
