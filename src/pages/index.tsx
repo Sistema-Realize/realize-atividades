@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
+ 
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import LoginButton from "@/components/auth/loginButton";
-import FormPage from "./form";
+import LoginButton from "@/components/auth/LoginButton";
+import FormPage from "@/components/FormPage";
 
 export default function LoginPage() {
   const { user, error, isLoading } = useUser();
