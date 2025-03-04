@@ -5,9 +5,12 @@ interface UseMainProps {
 }
 
 export const useMain = ({ user }: UseMainProps) => {
-  const userId = user?.sid as string ?? "";
+  const userId = user?.sub as string ?? "";
+
+  const isLoggedIn = !!userId;
 
   return {
     userId,
+    isLoggedIn,
   };
 };

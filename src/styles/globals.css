@@ -31,12 +31,7 @@
 
 body {
   color: var(--foreground);
-  background: linear-gradient(
-      90deg,
-      rgba(206, 28, 90, 0.24) -0.01%,
-      rgba(253, 49, 77, 0.24) 100%
-    ),
-    #fff;
+  background: var(--background);
   font-family: var(--font-sans);
 }
 

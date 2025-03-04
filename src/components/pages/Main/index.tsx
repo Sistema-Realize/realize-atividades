@@ -5,7 +5,7 @@ import { useMain } from "./useMain";
 
 export default function MainPage() {
   const { user, error, isLoading } = useUser();
-  const { userId } = useMain({ user });
+  const { userId, isLoggedIn } = useMain({ user });
 
   if (isLoading) {
     return (
@@ -27,9 +27,14 @@ export default function MainPage() {
     );
   }
 
-  if (user) {
-    return <Form userId={userId} />;
-  }
-
-  return <LoginButton />;
+  return (<>
+    <Form userId={userId} />
+    {isLoggedIn ? (
+      <a href="/api/auth/logout">
+        Logout
+      </a>
+    ) : (
+      <LoginButton />
+    )}
+  </>);
 } 
