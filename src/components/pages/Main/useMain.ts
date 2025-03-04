@@ -5,7 +5,7 @@ interface UseMainProps {
 }
 
 export const useMain = ({ user }: UseMainProps) => {
-  const userId = user?.sid ?? "";
+  const userId = user?.sid as string ?? "";
 
   return {
     userId,

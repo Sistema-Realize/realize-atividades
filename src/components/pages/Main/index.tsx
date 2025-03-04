@@ -1,6 +1,6 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import LoginButton from "@/components/auth/LoginButton";
-import FormPage from "@/components/pages/Form";
+import Form from "@/components/pages/Form";
 import { useMain } from "./useMain";
 
 export default function MainPage() {
@@ -28,7 +28,7 @@ export default function MainPage() {
   }
 
   if (user) {
-    return <FormPage user_id={userId} />;
+    return <Form userId={userId} />;
   }
 
   return <LoginButton />;

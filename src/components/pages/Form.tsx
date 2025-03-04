@@ -1,9 +1,11 @@
 import ActivitiesForm from "@/components/ActivitiesForm";
 
-export default function FormPage({ user_id }: { user_id: string }) {
+type FormProps = { userId: string };
+
+export default function Form(props: FormProps) {
   return (
     <div>
-      <ActivitiesForm user_id={user_id} />
+      <ActivitiesForm user_id={props.userId} />
     </div>
   );
 }
