@@ -1,0 +1,34 @@
+import { useUser } from "@auth0/nextjs-auth0/client";
+import LoginButton from "@/components/auth/LoginButton";
+import FormPage from "@/components/FormPage";
+
+export default function MainPage() {
+  const { user, error, isLoading } = useUser();
+  const user_id = user?.sub ?? "";
+
+  if (isLoading) {
+    return (
+      <div className="container min-h-screen flex items-center justify-center">
+        <div className="card animate-pulse">
+          <p className="text-center text-[var(--muted-color)]">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container min-h-screen flex items-center justify-center">
+        <div className="card">
+          <p className="text-red-600">{error.message}</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (user) {
+    return <FormPage user_id={user_id} />;
+  }
+
+  return <LoginButton />;
+} 
