@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from '@auth0/nextjs-auth0';
 
 export const config = {
   api: {
@@ -15,6 +16,14 @@ export default async function handler(
   }
 
   try {
+    const session = await getSession(req, res);
+    
+    if (!session || !session.user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    //const { sub: userId } = session.user;
+
     // Logica para processar o upload dos arquivos
     
     return res.status(200).json({
