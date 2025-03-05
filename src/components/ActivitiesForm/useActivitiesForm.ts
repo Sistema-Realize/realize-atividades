@@ -1,8 +1,7 @@
 import { useState, useCallback, ChangeEvent, useRef, useMemo } from 'react';
 import { formatFileSize } from '@/utils/formatFileSize';
 import { useUserContext } from '@/contexts/UserContext';
-import axios from 'axios';
-import { ActivityResponse } from '@/types/activities';
+import { getListActivities } from '@/utils/getListActivities';
 
 interface UploadedFile {
   name: string;
@@ -148,9 +147,9 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
           setFormStep('SUBSCRIPTION');
           return;
         } else if(!isSubscriptionActive){
-          const { data: activitiesResponse } = await axios.get<ActivityResponse>('/api/activities/list');
+          const response = await getListActivities();
           
-          if (activitiesResponse.data.length > 0) {
+          if (response.data.length > 0) {
             setFormStep('SUBSCRIPTION');
             return;
           }
