@@ -1,45 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from '@auth0/nextjs-auth0';
 import fetch from 'node-fetch';
-
-interface Activity {
-  context: string;
-  text: string;
-  type: string;
-  difficulty: string;
-  alternatives: {
-    alternative: string;
-    feedback: string;
-    correct_answer: boolean;
-  }[];
-  competence: string;
-}
-
-interface Competency {
-  name: string;
-  description: string;
-}
-
-interface ActivitySet {
-  content_goal: string;
-  competencies: Competency[];
-  activities: Activity[] | null;
-  activitiesPerCompetence: number;
-}
-
-interface ActivityRequest {
-  id: number;
-  external_reference: string;
-  amount: number;
-  activities: ActivitySet;
-  created_at: string;
-  status: 'requested' | 'finished';
-  updated_at: string | null;
-}
-
-interface ActivityResponse {
-  data: ActivityRequest[];
-}
+import { ActivityResponse } from '@/types/activities';
 
 export default async function handler(
   req: NextApiRequest,
@@ -74,8 +36,8 @@ export default async function handler(
       throw new Error(`N8N API responded with status: ${n8nResponse.status}`);
     }
 
-    const data: ActivityResponse = await n8nResponse.json();
-    return res.status(200).json(data);
+    const data: ActivityResponse[] = await n8nResponse.json();
+    return res.status(200).json(data[0]);
   } catch (error) {
     console.error('List activities error:', error);
     return res.status(500).json({ error: 'Error fetching activities' });
