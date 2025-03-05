@@ -76,7 +76,9 @@ export default async function handler(
     n8nFormData.append('type', '"Multiple choice"');
     n8nFormData.append('external_reference', userId);
 
-    const n8nResponse = await fetch(process.env.N8N_WEBHOOK_URL!, {
+    const url = new URL(`${process.env.N8N_WEBHOOK_URL!}/create-activities`);
+    
+    const n8nResponse = await fetch(url, {
       method: 'POST',
       body: n8nFormData,
       headers: {
