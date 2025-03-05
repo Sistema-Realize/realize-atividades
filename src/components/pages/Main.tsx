@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import LoginButton from "@/components/auth/LoginButton";
 import Form from "@/components/pages/Form";
 import { withUserContext, useUserContext } from "@/contexts/UserContext";
 
@@ -8,12 +7,10 @@ const MainPage = withUserContext(() => {
 
   return (<>
     <Form userId={userId} />
-    {isLoggedIn ? (
+    {isLoggedIn && (
       <Link href="/api/auth/logout">
         Logout
       </Link>
-    ) : (
-      <LoginButton />
     )}
   </>);
 })

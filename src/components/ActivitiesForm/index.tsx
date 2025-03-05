@@ -1,12 +1,14 @@
 import React from 'react';
 import { useActivitiesForm, DIFFICULTY_OPTIONS } from './useActivitiesForm';
 import Link from 'next/link';
+import { useUserContext } from '@/contexts/UserContext';
 
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
 }
 
 export default function ActivitiesForm(props: ActivitiesFormProps) {
+  const { isLoggedIn } = useUserContext();
   const {
     formStep,
     setFormStep,
@@ -41,6 +43,12 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 multiple
               />
             </div>
+            {!isLoggedIn && (
+              <div>
+                <p><Link href="/api/auth/login">Cadastre-se</Link> para poder baixar arquivos</p>
+                <p>Já possui cadastro? <Link href="/api/auth/login">Faça login</Link></p>
+              </div>
+            )}
           </>
         )}
 
