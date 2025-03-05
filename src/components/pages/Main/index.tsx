@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useUser } from "@auth0/nextjs-auth0/client";
 import LoginButton from "@/components/auth/LoginButton";
 import Form from "@/components/pages/Form";
@@ -30,9 +31,9 @@ export default function MainPage() {
   return (<>
     <Form userId={userId} />
     {isLoggedIn ? (
-      <a href="/api/auth/logout">
+      <Link href="/api/auth/logout">
         Logout
-      </a>
+      </Link>
     ) : (
       <LoginButton />
     )}
