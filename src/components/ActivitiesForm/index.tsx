@@ -8,7 +8,7 @@ type ActivitiesFormProps = {
 };
 
 export default function ActivitiesForm(props: ActivitiesFormProps) {
-  const { isLoggedIn } = useUserContext();
+  const { isLoggedIn, fullName, cpf, setFullName, setCpf } = useUserContext();
   const {
     formStep,
     setFormStep,
@@ -161,6 +161,9 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                     type="text"
                     name="fullName"
                     placeholder="Digite seu nome completo"
+                    // Store the input value in context
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                     required
                   />
                 </label>
@@ -174,15 +177,18 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                     placeholder="Digite seu CPF"
                     pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
                     title="Digite um CPF no formato: xxx.xxx.xxx-xx"
+                    // Store the input value in context
+                    value={cpf}
+                    onChange={(e) => setCpf(e.target.value)}
                     required
                   />
+                  <Link href="/api/auth/login">Quero me cadastrar!</Link>
                 </label>
               </div>
               <div>
                 <Link href="/api/auth/login">
                   Já tenho uma conta. Fazer Login
                 </Link>
-                <Link href="/api/auth/login">Quero me cadastrar!</Link>
               </div>
             </div>
           </>
