@@ -9,6 +9,8 @@ type ActivitiesFormProps = {
 
 export default function ActivitiesForm(props: ActivitiesFormProps) {
   const { isLoggedIn, fullName, cpf, setFullName, setCpf } = useUserContext();
+  const isDataValid = fullName.trim() !== "" && cpf.trim() !== "";
+
   const {
     formStep,
     setFormStep,
@@ -182,8 +184,16 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                     onChange={(e) => setCpf(e.target.value)}
                     required
                   />
-                  <Link href="/api/auth/login">Quero me cadastrar!</Link>
                 </label>
+              </div>
+              <div>
+                {isDataValid ? (
+                  <Link href="/api/auth/login">Quero me cadastrar!</Link>
+                ) : (
+                  <span style={{ opacity: 0.5 }}>
+                    Preencha Nome Completo e CPF para continuar
+                  </span>
+                )}
               </div>
               <div>
                 <Link href="/api/auth/login">
