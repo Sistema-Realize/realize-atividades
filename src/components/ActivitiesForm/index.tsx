@@ -1,15 +1,20 @@
-import React from "react";
 import { useActivitiesForm, DIFFICULTY_OPTIONS } from "./useActivitiesForm";
 import Link from "next/link";
 import { useUserContext } from "@/contexts/UserContext";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useState } from "react";
 
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
 };
 
 export default function ActivitiesForm(props: ActivitiesFormProps) {
-  const { isLoggedIn, fullName, cpf, setFullName, setCpf } = useUserContext();
-  const isDataValid = fullName.trim() !== "" && cpf.trim() !== "";
+  const { isLoggedIn, fullName, cpfCnpj, setFullName, setCpfCnpj } =
+    useUserContext();
+  const router = useRouter();
+
+  const [cpfCnpjError, setCpfCnpjError] = useState<string | null>(null);
 
   const {
     formStep,
@@ -24,6 +29,27 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
     isSubmitting,
     errorMessage,
   } = useActivitiesForm(props);
+
+  const handleRegisterClick = async () => {
+    if (!cpfCnpj) return;
+
+    try {
+      const response = await axios.post("/api/asaas/checkUserAccount", {
+        cpfCnpj,
+      });
+
+      if (response.data.exists) {
+        setCpfCnpjError("CPF/CNPJ já tem uma conta existente no sistema.");
+      } else {
+        setCpfCnpjError("");
+        // Redirect to login route
+        router.push("/api/auth/login");
+      }
+    } catch (error) {
+      console.error("Erro ao verificar CPF/CNPJ:", error);
+      setCpfCnpjError("Erro ao verificar CPF/CNPJ. Tente novamente.");
+    }
+  };
 
   return (
     <div>
@@ -172,34 +198,30 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               </div>
               <div>
                 <label>
-                  CPF
+                  CPF/CNPJ
                   <input
                     type="text"
-                    name="cpf"
-                    placeholder="Digite seu CPF"
-                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
-                    title="Digite um CPF no formato: xxx.xxx.xxx-xx"
-                    // Store the input value in context
-                    value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
+                    name="cpfCnpj"
+                    placeholder="Digite seu CPF/CNPJ"
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}|\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}"
+                    title="Digite um CPF/CNPJ no formato: xxx.xxx.xxx-xx ou xx.xxx.xxx/xxxx-xx"
+                    value={cpfCnpj}
+                    onChange={(e) => setCpfCnpj(e.target.value)}
                     required
                   />
                 </label>
+                {cpfCnpjError && <span>{cpfCnpjError}</span>}
               </div>
               <div>
-                {isDataValid ? (
-                  <Link href="/api/auth/login">Quero me cadastrar!</Link>
-                ) : (
-                  <span style={{ opacity: 0.5 }}>
-                    Preencha Nome Completo e CPF para continuar
-                  </span>
-                )}
+                <button onClick={handleRegisterClick}>
+                  Quero me cadastrar
+                </button>
               </div>
-              <div>
-                <Link href="/api/auth/login">
-                  Já tenho uma conta. Fazer Login
-                </Link>
-              </div>
+            </div>
+            <div>
+              <Link href="/api/auth/login">
+                Já tenho uma conta. Fazer Login
+              </Link>
             </div>
           </>
         )}
