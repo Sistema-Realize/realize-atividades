@@ -235,7 +235,13 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </p>
             <p>Faça a assinatura para poder gerar suas atividades</p>
             <div>
-              <button>Fazer Assinatura</button>
+              <Link
+                href="https://sandbox.asaas.com/c/ro4fw90olj1m5o31"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Fazer Assinatura
+              </Link>
               <button type="button" onClick={() => setFormStep("OPTIONS")}>
                 Voltar
               </button>
