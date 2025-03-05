@@ -1,11 +1,11 @@
-import React from 'react';
-import { useActivitiesForm, DIFFICULTY_OPTIONS } from './useActivitiesForm';
-import Link from 'next/link';
-import { useUserContext } from '@/contexts/UserContext';
+import React from "react";
+import { useActivitiesForm, DIFFICULTY_OPTIONS } from "./useActivitiesForm";
+import Link from "next/link";
+import { useUserContext } from "@/contexts/UserContext";
 
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
-}
+};
 
 export default function ActivitiesForm(props: ActivitiesFormProps) {
   const { isLoggedIn } = useUserContext();
@@ -26,13 +26,19 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        {formStep === 'UPLOAD_FILES' && (
+        {formStep === "UPLOAD_FILES" && (
           <>
             <h1>Boas vindas!</h1>
-            <p>Este é o <strong>Realize Atividades</strong>, nossa nova ferramenta de Inteligência Artificial que gera atividades interativas de acordo com as competências do seu material didático.</p>
+            <p>
+              Este é o <strong>Realize Atividades</strong>, nossa nova
+              ferramenta de Inteligência Artificial que gera atividades
+              interativas de acordo com as competências do seu material
+              didático.
+            </p>
             <div>
               <label htmlFor="files">
-                Arraste e solte arquivos aqui ou <span>escolha o arquivo</span><br />
+                Arraste e solte arquivos aqui ou <span>escolha o arquivo</span>
+                <br />
                 <span>Tipo de arquivo suportado: .pdf</span>
               </label>
               <input
@@ -45,14 +51,20 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </div>
             {!isLoggedIn && (
               <div>
-                <p><Link href="/api/auth/login">Cadastre-se</Link> para poder baixar arquivos</p>
-                <p>Já possui cadastro? <Link href="/api/auth/login">Faça login</Link></p>
+                <p>
+                  <Link href="/api/auth/login">Cadastre-se</Link> para poder
+                  baixar arquivos
+                </p>
+                <p>
+                  Já possui cadastro?{" "}
+                  <Link href="/api/auth/login">Faça login</Link>
+                </p>
               </div>
             )}
           </>
         )}
 
-        {formStep === 'UPLOADED' && (
+        {formStep === "UPLOADED" && (
           <>
             <h1>Envio de arquivos</h1>
             <p>Envio de arquivos concluído!</p>
@@ -77,30 +89,22 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               )}
             </div>
             <div>
-              <button
-                type="button"
-                onClick={() => setFormStep('UPLOAD_FILES')}
-              >
+              <button type="button" onClick={() => setFormStep("UPLOAD_FILES")}>
                 Enviar mais arquivos
               </button>
-              <button
-                type="button"
-                onClick={() => setFormStep('OPTIONS')}
-              >
+              <button type="button" onClick={() => setFormStep("OPTIONS")}>
                 Continuar
               </button>
             </div>
           </>
         )}
 
-        {formStep === 'OPTIONS' && (
+        {formStep === "OPTIONS" && (
           <>
             <h1>Opções das atividades</h1>
             <p>Selecione as opções desejadas</p>
             <div>
-              <label htmlFor="amount">
-                Quantidade de atividades
-              </label>
+              <label htmlFor="amount">Quantidade de atividades</label>
               <input
                 type="number"
                 id="amount"
@@ -111,9 +115,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               />
             </div>
             <div>
-              <label>
-                Nível de dificuldade
-              </label>
+              <label>Nível de dificuldade</label>
               <div>
                 {DIFFICULTY_OPTIONS.map((option) => (
                   <label key={option}>
@@ -133,68 +135,87 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               </div>
             )}
             <div>
-              <button
-                disabled={!isFormValid || isSubmitting}
-                type="submit"
-              >
-                {isSubmitting ? 'Enviando...' : 'Enviar'}
+              <button disabled={!isFormValid || isSubmitting} type="submit">
+                {isSubmitting ? "Enviando..." : "Enviar"}
               </button>
-              <button
-                type="button"
-                onClick={() => setFormStep('UPLOAD_FILES')}
-              >
+              <button type="button" onClick={() => setFormStep("UPLOAD_FILES")}>
                 Voltar
               </button>
             </div>
           </>
         )}
 
-        {formStep === 'LOGIN' && (
+        {formStep === "LOGIN" && (
           <>
             <h1>Quase lá!</h1>
-            <p>Falta muito pouco para você gerar suas atividades! Basta acessar a sua conta ou criar um novo cadastro e fazer o pagamento.</p>
+            <p>
+              Falta muito pouco para você gerar suas atividades! Basta acessar a
+              sua conta ou criar um novo cadastro e fazer o pagamento.
+            </p>
 
             <div>
-              <Link href="/api/auth/login">
-                Já tenho uma conta. Fazer Login
-              </Link>
-              <Link href="/api/auth/login">
-                Quero me cadastrar!
-              </Link>
+              <div>
+                <label>
+                  Nome completo
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Digite seu nome completo"
+                    required
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  CPF
+                  <input
+                    type="text"
+                    name="cpf"
+                    placeholder="Digite seu CPF"
+                    pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                    title="Digite um CPF no formato: xxx.xxx.xxx-xx"
+                    required
+                  />
+                </label>
+              </div>
+              <div>
+                <Link href="/api/auth/login">
+                  Já tenho uma conta. Fazer Login
+                </Link>
+                <Link href="/api/auth/login">Quero me cadastrar!</Link>
+              </div>
             </div>
           </>
         )}
 
-        {formStep === 'SUBSCRIPTION' && (
+        {formStep === "SUBSCRIPTION" && (
           <>
             <h1>Assinatura</h1>
-            <p>Contas de teste não possuem acesso a geração de mais de 1 atividade.</p>
+            <p>
+              Contas de teste não possuem acesso a geração de mais de 1
+              atividade.
+            </p>
             <p>Faça a assinatura para poder gerar suas atividades</p>
             <div>
-              <button>
-                Fazer Assinatura
-              </button>
-              <button
-                type="button"
-                onClick={() => setFormStep('OPTIONS')}
-              >
+              <button>Fazer Assinatura</button>
+              <button type="button" onClick={() => setFormStep("OPTIONS")}>
                 Voltar
               </button>
             </div>
           </>
         )}
 
-        {formStep === 'SUCCESS' && (
+        {formStep === "SUCCESS" && (
           <>
             <h1>Atividades solicitadas</h1>
             <p>Suas atividades estão sendo geradas!</p>
             <p>Isso pode demorar alguns minutos.</p>
-            <p>Veja seu histórico de atividades clicando <Link href="/">aqui</Link>.</p>
+            <p>
+              Veja seu histórico de atividades clicando{" "}
+              <Link href="/">aqui</Link>.
+            </p>
             <div>
-              <button
-                type="button"
-                onClick={() => setFormStep('UPLOAD_FILES')}
-              >
+              <button type="button" onClick={() => setFormStep("UPLOAD_FILES")}>
                 Gerar novas atividades
               </button>
             </div>
@@ -203,4 +224,4 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
       </form>
     </div>
   );
-} 
+}
