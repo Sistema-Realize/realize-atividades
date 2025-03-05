@@ -55,7 +55,9 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
     <div className="flex justify-center items-center min-h-screen bg-accent-color">
       <form
         onSubmit={onSubmit}
-        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl mx-auto my-6"
+        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl mx-auto my-6 
+          sm:p-4 sm:max-w-[1800px] sm:min-h-[600px] 
+          md:p-8 md:min-h-[900px] md:min-w-[800px]"
       >
         {formStep === "UPLOAD_FILES" && (
           <>
