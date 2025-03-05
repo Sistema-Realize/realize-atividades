@@ -59,8 +59,8 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
       >
         {formStep === "UPLOAD_FILES" && (
           <>
-            <div className="flex justify-center mb-6 mt-6 mb-12 mr-12 ml-12 text-primary-color">
-              <img src="/logo.png" alt="Realize Atividades" className="h-12" />
+            <div className="flex justify-center  mt-6 mb-12 mr-12 ml-12 text-primary-color">
+              Realize Atividades
             </div>
             <h1 className="text-title-color">Boas vindas!</h1>
             <p className="text-center mb-6 text-muted-color">
@@ -135,25 +135,31 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 Envio de arquivos concluído!
               </p>
             </div>
-            <div className="mb-4">
-              <p className="font-medium text-lg uppercase mb-3">
-                LISTA DE ARQUIVOS ENVIADOS
-              </p>
-              {formData.files.length > 0 && (
-                <ul className="space-y-2">
-                  {formData.files.map((file) => (
-                    <li key={file.name} className="flex items-start">
-                      <span className="text-primary-color font-medium">
-                        • {file.name}
-                      </span>
-                      <span className="text-muted-color ml-1">
-                        ({file.size})
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            <p className="text-primary-color font-medium mb-4 text-center text-2xl">
+              Lista de arquivos enviados
+            </p>
+            {formData.files.length > 0 && (
+              <ul>
+                {formData.files.map((file) => (
+                  <li
+                    className="flex justify-between items-center mb-4 p-4 border-2 border-gray-300 rounded-lg"
+                    key={file.name}
+                  >
+                    <span>
+                      {file.name} ({file.size})
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveFile(file.name)}
+                      className="button-secondary-color"
+                    >
+                      Remover
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+
             <div className="space-y-2 flex justify-center">
               <div className="flex gap-2 w-full justify-center items-center flex-col">
                 <button
