@@ -12,7 +12,13 @@ interface FormData {
   difficulty: string[];
 }
 
+type useActivitiesFormProps = {
+  onSubmit: (formData: globalThis.FormData) => Promise<void>;
+}
+
 interface UseActivitiesFormReturn {
+  formStep: FormSteps;
+  setFormStep: (step: FormSteps) => void;
   formData: FormData;
   isFormValid: boolean;
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -24,15 +30,15 @@ interface UseActivitiesFormReturn {
   errorMessage: string | null;
 }
 
-type useActivitiesFormProps = {
-  onSubmit: (formData: globalThis.FormData) => Promise<void>;
-}
+type FormSteps = 'UPLOAD_FILES' | 'UPLOADED' | 'OPTIONS' | 'SUCCESS';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
 export const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
 
 export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesFormReturn {
   const { onSubmit: onSubmitProps } = props;
+
+  const [formStep, setFormStep] = useState<FormSteps>('UPLOAD_FILES');
   const [formData, setFormData] = useState<FormData>({
     files: [],
     amount: '',
@@ -40,6 +46,7 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const rawFilesRef = useRef<File[]>([]);
 
   const isFormValid = useMemo(() => formData.files.length > 0 &&
@@ -66,6 +73,8 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
         ...prev,
         files: [...prev.files, ...newFiles],
       }));
+
+      setFormStep('UPLOADED');
     },
     []
   );
@@ -126,6 +135,8 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
         });
 
         await onSubmitProps(formDataToSend);
+
+        setFormStep('SUCCESS');
         
         // Reset form after successful submission
         setFormData({
@@ -145,6 +156,8 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
   );
 
   return {
+    formStep,
+    setFormStep,
     formData,
     isFormValid,
     onFileChange,
