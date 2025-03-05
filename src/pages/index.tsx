@@ -1,36 +1,5 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
+import Main from "@/components/pages/Main";
 
-import { useUser } from "@auth0/nextjs-auth0/client";
-import LoginButton from "@/components/auth/loginButton";
-import FormPage from "./form";
-
-export default function LoginPage() {
-  const { user, error, isLoading } = useUser();
-  const user_id = user?.sub ?? "";
-
-  if (isLoading) {
-    return (
-      <div className="container min-h-screen flex items-center justify-center">
-        <div className="card animate-pulse">
-          <p className="text-center text-[var(--muted-color)]">Loading...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container min-h-screen flex items-center justify-center">
-        <div className="card">
-          <p className="text-red-600">{error.message}</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (user) {
-    return <FormPage user_id={user_id} />;
-  }
-
-  return <LoginButton />;
-}
+export default function App() {
+  return <Main />;
+} 
