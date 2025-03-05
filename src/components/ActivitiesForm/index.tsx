@@ -141,7 +141,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setFormStep('UPLOAD_FILES')}
+                onClick={() => setFormStep('UPLOADED')}
               >
                 Voltar
               </button>
