@@ -149,6 +149,22 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
           </>
         )}
 
+        {formStep === 'LOGIN' && (
+          <>
+            <h1>Quase lá!</h1>
+            <p>Falta muito pouco para você gerar suas atividades! Basta acessar a sua conta ou criar um novo cadastro e fazer o pagamento.</p>
+
+            <div>
+              <Link href="/api/auth/login">
+                Já tenho uma conta. Fazer Login
+              </Link>
+              <Link href="/api/auth/login">
+                Quero me cadastrar!
+              </Link>
+            </div>
+          </>
+        )}
+
         {formStep === 'SUCCESS' && (
           <>
             <h1>Atividades solicitadas</h1>

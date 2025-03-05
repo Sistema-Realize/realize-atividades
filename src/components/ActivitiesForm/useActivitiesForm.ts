@@ -1,5 +1,6 @@
 import { useState, useCallback, ChangeEvent, useRef, useMemo } from 'react';
 import { formatFileSize } from '@/utils/formatFileSize';
+import { useUserContext } from '@/contexts/UserContext';
 
 interface UploadedFile {
   name: string;
@@ -30,13 +31,15 @@ interface UseActivitiesFormReturn {
   errorMessage: string | null;
 }
 
-type FormSteps = 'UPLOAD_FILES' | 'UPLOADED' | 'OPTIONS' | 'SUCCESS';
+type FormSteps = 'UPLOAD_FILES' | 'UPLOADED' | 'OPTIONS' | 'LOGIN' | 'SUCCESS';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
 export const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
 
 export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesFormReturn {
   const { onSubmit: onSubmitProps } = props;
+
+  const { isLoggedIn } = useUserContext();
 
   const [formStep, setFormStep] = useState<FormSteps>('UPLOAD_FILES');
   const [formData, setFormData] = useState<FormData>({
@@ -134,17 +137,21 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
           formDataToSend.append('Files', file);
         });
 
-        await onSubmitProps(formDataToSend);
+        if(isLoggedIn) {
+          await onSubmitProps(formDataToSend);
 
-        setFormStep('SUCCESS');
-        
-        // Reset form after successful submission
-        setFormData({
-          files: [],
-          amount: '',
-          difficulty: [],
-        });
-        rawFilesRef.current = [];
+          setFormStep('SUCCESS');
+          
+          // Reset form after successful submission
+          setFormData({
+            files: [],
+            amount: '',
+            difficulty: [],
+          });
+          rawFilesRef.current = [];
+        } else {
+          setFormStep('LOGIN');
+        }
       } catch (error) {
         console.error('Error submitting form:', error);
         setErrorMessage(error instanceof Error ? error.message : 'Error submitting form');
@@ -152,7 +159,7 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
         setIsSubmitting(false);
       }
     },
-    [formData, isFormValid, onSubmitProps]
+    [formData, isFormValid, onSubmitProps, isLoggedIn]
   );
 
   return {
