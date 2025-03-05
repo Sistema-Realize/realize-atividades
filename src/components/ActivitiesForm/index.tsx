@@ -189,7 +189,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             <h1>Atividades solicitadas</h1>
             <p>Suas atividades estão sendo geradas!</p>
             <p>Isso pode demorar alguns minutos.</p>
-            <p>Veja seu histórico de atividades clicando <Link href="/">aqui</Link>.</p>
+            <p>Veja seu histórico de atividades clicando <Link href="/history">aqui</Link>.</p>
             <div>
               <button
                 type="button"

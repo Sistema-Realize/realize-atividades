@@ -7,11 +7,14 @@ const Main = withUserContext(() => {
 
   return (<>
     <Form userId={userId} />
-    {isLoggedIn && (
+    {isLoggedIn && (<>  
       <Link href="/api/auth/logout">
         Logout
       </Link>
-    )}
+      <Link href="/history">
+        Histórico
+      </Link>
+    </>)}
   </>);
 })
 
