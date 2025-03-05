@@ -165,6 +165,25 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
           </>
         )}
 
+        {formStep === 'SUBSCRIPTION' && (
+          <>
+            <h1>Assinatura</h1>
+            <p>Contas de teste não possuem acesso a geração de mais de 1 atividade.</p>
+            <p>Faça a assinatura para poder gerar suas atividades</p>
+            <div>
+              <button>
+                Fazer Assinatura
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormStep('OPTIONS')}
+              >
+                Voltar
+              </button>
+            </div>
+          </>
+        )}
+
         {formStep === 'SUCCESS' && (
           <>
             <h1>Atividades solicitadas</h1>

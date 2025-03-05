@@ -31,7 +31,7 @@ interface UseActivitiesFormReturn {
   errorMessage: string | null;
 }
 
-type FormSteps = 'UPLOAD_FILES' | 'UPLOADED' | 'OPTIONS' | 'LOGIN' | 'SUCCESS';
+type FormSteps = 'UPLOAD_FILES' | 'UPLOADED' | 'OPTIONS' | 'LOGIN' | 'SUBSCRIPTION' | 'SUCCESS';
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
 export const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
@@ -39,7 +39,7 @@ export const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
 export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesFormReturn {
   const { onSubmit: onSubmitProps } = props;
 
-  const { isLoggedIn } = useUserContext();
+  const { isLoggedIn, isSubscriptionActive } = useUserContext();
 
   const [formStep, setFormStep] = useState<FormSteps>('UPLOAD_FILES');
   const [formData, setFormData] = useState<FormData>({
@@ -137,21 +137,28 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
           formDataToSend.append('Files', file);
         });
 
-        if(isLoggedIn) {
-          await onSubmitProps(formDataToSend);
-
-          setFormStep('SUCCESS');
-          
-          // Reset form after successful submission
-          setFormData({
-            files: [],
-            amount: '',
-            difficulty: [],
-          });
-          rawFilesRef.current = [];
-        } else {
+        if(!isLoggedIn){
           setFormStep('LOGIN');
+          return;
         }
+
+        if(!isSubscriptionActive && Number(formData.amount) > 1) {
+          // TODO: Implement subscription condition here
+          setFormStep('SUBSCRIPTION');
+          return;
+        }
+
+        await onSubmitProps(formDataToSend);
+
+        setFormStep('SUCCESS');
+        
+        // Reset form after successful submission
+        setFormData({
+          files: [],
+          amount: '',
+          difficulty: [],
+        });
+        rawFilesRef.current = [];
       } catch (error) {
         console.error('Error submitting form:', error);
         setErrorMessage(error instanceof Error ? error.message : 'Error submitting form');
@@ -159,7 +166,7 @@ export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesF
         setIsSubmitting(false);
       }
     },
-    [formData, isFormValid, onSubmitProps, isLoggedIn]
+    [formData, isFormValid, onSubmitProps, isLoggedIn, isSubscriptionActive]
   );
 
   return {

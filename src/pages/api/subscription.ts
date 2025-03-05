@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // TODO: Implement your actual subscription check logic here
     // This is a placeholder implementation
-    const isActive = true; // Replace with actual subscription status check
+    const isActive = false; // Replace with actual subscription status check
 
     return res.status(200).json({ isActive });
   } catch (error) {
