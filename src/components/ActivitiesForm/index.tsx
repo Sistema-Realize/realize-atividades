@@ -1,25 +1,31 @@
 import React from 'react';
-import { useActivitiesForm } from './useActivitiesForm';
+import { useActivitiesForm, DIFFICULTY_OPTIONS } from './useActivitiesForm';
 
-const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
+type ActivitiesFormProps = {
+  onSubmit: (formData: globalThis.FormData) => Promise<void>;
+}
 
-export default function ActivitiesForm() {
+export default function ActivitiesForm(props: ActivitiesFormProps) {
   const {
     formData,
     isFormValid,
     onFileChange,
     onAmountChange,
     onDifficultyChange,
-    removeFile,
+    onRemoveFile,
     onSubmit,
-  } = useActivitiesForm();
+    isSubmitting,
+    errorMessage,
+  } = useActivitiesForm(props);
 
   return (
     <div>
       <h1>Formulário</h1>
       <form onSubmit={onSubmit}>
         <div>
-          <label htmlFor="files">Arquivos</label>
+          <label htmlFor="files">
+            Arquivos
+          </label>
           <input
             type="file"
             id="files"
@@ -31,10 +37,12 @@ export default function ActivitiesForm() {
             <ul>
               {formData.files.map((file) => (
                 <li key={file.name}>
-                  <span>{file.name} ({file.size})</span>
+                  <span>
+                    {file.name} ({file.size})
+                  </span>
                   <button
                     type="button"
-                    onClick={() => removeFile(file.name)}
+                    onClick={() => onRemoveFile(file.name)}
                   >
                     Remover
                   </button>
@@ -45,7 +53,9 @@ export default function ActivitiesForm() {
         </div>
 
         <div>
-          <label htmlFor="amount">Quantidade de atividades</label>
+          <label htmlFor="amount">
+            Quantidade de atividades
+          </label>
           <input
             type="number"
             id="amount"
@@ -57,7 +67,9 @@ export default function ActivitiesForm() {
         </div>
 
         <div>
-          <label>Nível de dificuldade</label>
+          <label>
+            Nível de dificuldade
+          </label>
           <div>
             {DIFFICULTY_OPTIONS.map((option) => (
               <label key={option}>
@@ -71,10 +83,17 @@ export default function ActivitiesForm() {
             ))}
           </div>
         </div>
-
-        <button disabled={!isFormValid} type="submit">
-          Enviar
+        <button
+          disabled={!isFormValid || isSubmitting}
+          type="submit"
+        >
+          {isSubmitting ? 'Enviando...' : 'Enviar'}
         </button>
+        {errorMessage && (
+          <div>
+            <span>{errorMessage}</span>
+          </div>
+        )}
       </form>
     </div>
   );

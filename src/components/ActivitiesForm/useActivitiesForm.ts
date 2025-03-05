@@ -1,4 +1,5 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useState, useCallback, ChangeEvent, useRef, useMemo } from 'react';
+import { formatFileSize } from '@/utils/formatFileSize';
 
 interface UploadedFile {
   name: string;
@@ -17,34 +18,33 @@ interface UseActivitiesFormReturn {
   onFileChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onAmountChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onDifficultyChange: (value: string) => void;
-  removeFile: (fileName: string) => void;
+  onRemoveFile: (fileName: string) => void;
   onSubmit: (event: React.FormEvent) => void;
+  isSubmitting: boolean;
+  errorMessage: string | null;
+}
+
+type useActivitiesFormProps = {
+  onSubmit: (formData: globalThis.FormData) => Promise<void>;
 }
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
+export const DIFFICULTY_OPTIONS = ['Fácil', 'Médio', 'Difícil'];
 
-export function useActivitiesForm(): UseActivitiesFormReturn {
+export function useActivitiesForm(props: useActivitiesFormProps): UseActivitiesFormReturn {
+  const { onSubmit: onSubmitProps } = props;
   const [formData, setFormData] = useState<FormData>({
     files: [],
     amount: '',
     difficulty: [],
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const rawFilesRef = useRef<File[]>([]);
 
-  const isFormValid = useCallback(() => {
-    return (
-      formData.files.length > 0 &&
-      formData.amount !== '' &&
-      formData.difficulty.length > 0
-    );
-  }, [formData]);
-
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return '0 Bytes';
-    const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-  };
+  const isFormValid = useMemo(() => formData.files.length > 0 &&
+  formData.amount !== '' &&
+  formData.difficulty.length > 0, [formData]);
 
   const onFileChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +54,8 @@ export function useActivitiesForm(): UseActivitiesFormReturn {
       if (validFiles.length !== files.length) {
         alert('Alguns arquivos excedem o limite de 100MB e foram ignorados.');
       }
+
+      rawFilesRef.current = [...rawFilesRef.current, ...validFiles];
 
       const newFiles = validFiles.map((file) => ({
         name: file.name,
@@ -67,6 +69,17 @@ export function useActivitiesForm(): UseActivitiesFormReturn {
     },
     []
   );
+
+  const onRemoveFile = useCallback((fileName: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      files: prev.files.filter((file) => file.name !== fileName),
+    }));
+    
+    rawFilesRef.current = rawFilesRef.current.filter(
+      (file) => file.name !== fileName
+    );
+  }, []);
 
   const onAmountChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -94,30 +107,52 @@ export function useActivitiesForm(): UseActivitiesFormReturn {
     });
   }, []);
 
-  const removeFile = useCallback((fileName: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      files: prev.files.filter((file) => file.name !== fileName),
-    }));
-  }, []);
-
   const onSubmit = useCallback(
-    (event: React.FormEvent) => {
+    async (event: React.FormEvent) => {
       event.preventDefault();
-      if (isFormValid()) {
-        console.log('Form submitted:', formData);
+      if (!isFormValid) return;
+
+      setIsSubmitting(true);
+      setErrorMessage(null);
+
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append('amount', formData.amount);
+        formData.difficulty.forEach((diff) => {
+          formDataToSend.append('difficulty', diff);
+        });
+        rawFilesRef.current.forEach((file) => {
+          formDataToSend.append('Files', file);
+        });
+
+        await onSubmitProps(formDataToSend);
+        
+        // Reset form after successful submission
+        setFormData({
+          files: [],
+          amount: '',
+          difficulty: [],
+        });
+        rawFilesRef.current = [];
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        setErrorMessage(error instanceof Error ? error.message : 'Error submitting form');
+      } finally {
+        setIsSubmitting(false);
       }
     },
-    [formData, isFormValid]
+    [formData, isFormValid, onSubmitProps]
   );
 
   return {
     formData,
-    isFormValid: isFormValid(),
+    isFormValid,
     onFileChange,
     onAmountChange,
     onDifficultyChange,
-    removeFile,
+    onRemoveFile,
     onSubmit,
+    isSubmitting,
+    errorMessage,
   };
 } 
