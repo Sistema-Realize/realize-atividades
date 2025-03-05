@@ -4,6 +4,7 @@ import { useUserContext } from "@/contexts/UserContext";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useState } from "react";
+import { FaUserCircle, FaCheckCircle } from "react-icons/fa";
 
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
@@ -42,7 +43,6 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         setCpfCnpjError("CPF/CNPJ já tem uma conta existente no sistema.");
       } else {
         setCpfCnpjError("");
-        // Redirect to login route
         router.push("/api/auth/login");
       }
     } catch (error) {
@@ -52,22 +52,43 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
   };
 
   return (
-    <div>
-      <form onSubmit={onSubmit}>
+    <div className="flex justify-center items-center min-h-screen bg-accent-color">
+      <form
+        onSubmit={onSubmit}
+        className="bg-white shadow-lg rounded-lg p-8 w-full max-w-2xl mx-auto my-6"
+      >
         {formStep === "UPLOAD_FILES" && (
           <>
-            <h1>Boas vindas!</h1>
-            <p>
-              Este é o <strong>Realize Atividades</strong>, nossa nova
-              ferramenta de Inteligência Artificial que gera atividades
-              interativas de acordo com as competências do seu material
-              didático.
+            <div className="flex justify-center mb-6 mt-6 mb-12 mr-12 ml-12 text-primary-color">
+              <img src="/logo.png" alt="Realize Atividades" className="h-12" />
+            </div>
+            <h1 className="text-title-color">Boas vindas!</h1>
+            <p className="text-center mb-6 text-muted-color">
+              Este é o{" "}
+              <strong className="text-primary-color">Realize Atividades</strong>
+              , nossa nova ferramenta de Inteligência Artificial que gera
+              atividades interativas de acordo com as competências do seu
+              material didático.
             </p>
-            <div>
-              <label htmlFor="files">
-                Arraste e solte arquivos aqui ou <span>escolha o arquivo</span>
-                <br />
-                <span>Tipo de arquivo suportado: .pdf</span>
+            <div className="mb-4">
+              <label
+                htmlFor="files"
+                className="block text-center cursor-pointer border-dashed border-2 border-gray-300 p-6 rounded-lg"
+              >
+                <span className="block mb-2 text-center text-primary-color">
+                  <FaUserCircle className="inline-block text-4xl text-accent-color" />
+                  <br />
+                  Arraste e solte arquivos aqui ou{" "}
+                  <span
+                    style={{ color: "var(--accent-color)" }}
+                    className="underline"
+                  >
+                    escolha o arquivo
+                  </span>
+                </span>
+                <span className="text-muted-color">
+                  Tipo de arquivo suportado: .pdf
+                </span>
               </label>
               <input
                 type="file"
@@ -75,17 +96,28 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 accept=".pdf"
                 onChange={onFileChange}
                 multiple
+                className="hidden"
               />
             </div>
             {!isLoggedIn && (
-              <div>
+              <div className="text-center flex flex-col items-center w-full">
                 <p>
-                  <Link href="/api/auth/login">Cadastre-se</Link> para poder
-                  baixar arquivos
+                  <Link
+                    href="/api/auth/login"
+                    className="text-primary-color w-full block mb-2"
+                  >
+                    Cadastre-se
+                  </Link>{" "}
+                  para poder baixar arquivos
                 </p>
                 <p>
                   Já possui cadastro?{" "}
-                  <Link href="/api/auth/login">Faça login</Link>
+                  <Link
+                    href="/api/auth/login"
+                    className="text-primary-color w-full block"
+                  >
+                    Faça login
+                  </Link>
                 </p>
               </div>
             )}
@@ -94,35 +126,51 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
 
         {formStep === "UPLOADED" && (
           <>
-            <h1>Envio de arquivos</h1>
-            <p>Envio de arquivos concluído!</p>
-            <div>
-              <p>Lista de arquivos enviados</p>
+            <h1 className="text-title-color">Envio de arquivos</h1>
+            <div className="bg-green-50 p-6 rounded-lg text-center mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 border-2 border-purple-300 mb-3">
+                <FaCheckCircle className="text-4xl text-emerald-400" />
+              </div>
+              <p className="text-emerald-700 font-medium">
+                Envio de arquivos concluído!
+              </p>
+            </div>
+            <div className="mb-4">
+              <p className="font-medium text-lg uppercase mb-3">
+                LISTA DE ARQUIVOS ENVIADOS
+              </p>
               {formData.files.length > 0 && (
-                <ul>
+                <ul className="space-y-2">
                   {formData.files.map((file) => (
-                    <li key={file.name}>
-                      <span>
-                        {file.name} ({file.size})
+                    <li key={file.name} className="flex items-start">
+                      <span className="text-primary-color font-medium">
+                        • {file.name}
                       </span>
-                      <button
-                        type="button"
-                        onClick={() => onRemoveFile(file.name)}
-                      >
-                        Remover
-                      </button>
+                      <span className="text-muted-color ml-1">
+                        ({file.size})
+                      </span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
-            <div>
-              <button type="button" onClick={() => setFormStep("UPLOAD_FILES")}>
-                Enviar mais arquivos
-              </button>
-              <button type="button" onClick={() => setFormStep("OPTIONS")}>
-                Continuar
-              </button>
+            <div className="space-y-2 flex justify-center">
+              <div className="flex gap-2 w-full justify-center items-center flex-col">
+                <button
+                  type="button"
+                  onClick={() => setFormStep("UPLOAD_FILES")}
+                  className="button-secondary-color w-full "
+                >
+                  Enviar mais arquivos
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFormStep("OPTIONS")}
+                  className="button-primary-color w-full"
+                >
+                  Continuar
+                </button>
+              </div>
             </div>
           </>
         )}
