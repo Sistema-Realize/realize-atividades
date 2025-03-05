@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Form from "@/components/pages/Form";
 import { withUserContext, useUserContext } from "@/contexts/UserContext";
 
-const MainPage = withUserContext(() => {
+const Main = withUserContext(() => {
   const { userId, isLoggedIn } = useUserContext();
 
   return (<>
@@ -15,4 +15,4 @@ const MainPage = withUserContext(() => {
   </>);
 })
 
-export default MainPage;
+export default Main;
