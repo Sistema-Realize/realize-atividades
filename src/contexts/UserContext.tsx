@@ -5,12 +5,13 @@ interface UserContextType {
   userId: string;
   isLoggedIn: boolean;
   isSubscriptionActive: boolean;
+  isLoadingUser: boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserContextProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useUser();
+  const { user, isLoading: isLoadingUser } = useUser();
   const userId = user?.sub as string ?? "";
   const isLoggedIn = !!userId;
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
@@ -28,7 +29,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   }, [isLoggedIn, userId]);
 
   return (
-    <UserContext.Provider value={{ userId, isLoggedIn, isSubscriptionActive }}>
+    <UserContext.Provider value={{ userId, isLoggedIn, isSubscriptionActive, isLoadingUser }}>
       {children}
     </UserContext.Provider>
   );
