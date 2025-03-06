@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useUserContext } from "@/contexts/UserContext";
 import { FaUserCircle, FaCheckCircle } from "react-icons/fa";
 import Image from "next/image";
+import UserAccount from "../pages/UserAccount";
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
 };
@@ -298,6 +299,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             <div className="flex flex-col items-center space-y-4 mt-6">
               <Link
                 href="https://sandbox.asaas.com/c/nuw3wj1zauvgxvwf"
+                onClick={() => setFormStep("SUCCESS")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="button-primary-color w-1/2 text-center py-4"
