@@ -24,15 +24,15 @@ export default async function handler(
     accept: "application/json",
     "Content-Type": "application/json",
     "User-Agent": "realize-atividades-app",
-    access_token: process.env.ASAAS_ACCESS_TOKEN, // Certifique-se de que a variável está definida
+    // Você pode manter o token hardcoded para teste ou utilizar process.env
+    access_token:
+      "$aact_MzkwODA2MWY2OGM3MWRlMDU2NWM3MzJlNzZmNGZhZGY6OmFlOGVmODI2LTAzZWUtNGQyYi1hZWMyLTk1ZWFiYWRjZDNkMjo6JGFhY2hfODRmZTY3NTktMjQ0Yy00NmQ1LTlmMDEtOTg2NWZkOGFmY2M3",
   };
 
   console.log("[📡 REQUEST HEADERS]", headers);
-  console.log("[🔑 TOKEN LENGTH]", process.env.ASAAS_ACCESS_TOKEN?.length);
   console.log("[🌐 API URL]", process.env.ASAAS_API_URL);
 
   try {
-    // Verifica se o cliente já existe com base no externalReference (userId)
     console.log("[🔍 VERIFICANDO CLIENTE EXISTENTE]");
     const customersResponse = await axios.get(
       `${
@@ -59,7 +59,6 @@ export default async function handler(
       console.log("[🆕 NOVO CLIENTE CRIADO]", customerId);
     }
 
-    // Verifica se já existe um payment link ativo para o usuário, usando externalReference
     console.log("[🔍 VERIFICANDO PAYMENT LINK EXISTENTE]");
     const paymentLinkResponse = await axios.get(
       `${
@@ -72,14 +71,14 @@ export default async function handler(
     console.log("[✅ PAYMENT LINK RESPONSE DATA]", paymentLinkResponse.data);
 
     if (paymentLinkResponse.data.totalCount > 0) {
-      console.log("[✅ PAYMENT LINK JÁ ATIVO]");
+      const existingPaymentLink = paymentLinkResponse.data.data[0];
+      console.log("[✅ PAYMENT LINK JÁ ATIVO]", existingPaymentLink);
       return res.status(200).json({
         alreadySubscribed: true,
-        message: "Você já possui um payment link ativo.",
+        paymentLinkUrl: existingPaymentLink.url,
       });
     }
 
-    // Cria um novo payment link conforme a documentação
     console.log("[🚀 CRIANDO NOVO PAYMENT LINK]");
     const paymentLinkCreationResponse = await axios.post(
       `${process.env.ASAAS_API_URL}/paymentLinks`,
@@ -103,22 +102,23 @@ export default async function handler(
       paymentLinkCreationResponse.data
     );
 
+    // Supondo que o objeto retornado contenha a URL em paymentLinkCreationResponse.data.url
+    const createdPaymentLinkUrl = paymentLinkCreationResponse.data.url;
     return res.status(200).json({
       alreadySubscribed: false,
-      paymentLink: paymentLinkCreationResponse.data,
+      paymentLinkUrl: createdPaymentLinkUrl,
     });
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("[❌ ERRO AXIOS]", {
         data: error.response?.data,
         status: error.response?.status,
-        ASAAS_API_URLheaders: error.config.headers,
+        headers: error.config.headers,
         url: error.config.url,
       });
     } else {
       console.error("[❌ ERRO DESCONHECIDO]", error);
     }
-
     return res.status(500).json({ error: "Erro interno no servidor" });
   }
 }

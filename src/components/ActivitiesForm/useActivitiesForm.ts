@@ -191,13 +191,9 @@ export function useActivitiesForm(
         throw new Error(data.error || `Erro desconhecido: ${response.status}`);
       }
 
-      if (data.alreadySubscribed) {
-        alert("Você já possui uma assinatura ativa!");
-        return;
-      }
-
-      if (data.subscription && data.subscription.invoiceUrl) {
-        window.location.href = data.subscription.invoiceUrl;
+      if (data.paymentLinkUrl) {
+        // Redireciona para a URL da fatura
+        window.location.href = data.paymentLinkUrl;
       } else {
         console.error("Link de pagamento não retornado.");
         alert("Falha ao obter link de pagamento.");
