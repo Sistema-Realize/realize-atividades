@@ -5,10 +5,6 @@ interface UserContextType {
   userId: string;
   isLoggedIn: boolean;
   isSubscriptionActive: boolean;
-  fullName: string;
-  setFullName: (value: string) => void;
-  cpfCnpj: string;
-  setCpfCnpj: (value: string) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -22,8 +18,6 @@ export function UserContextProvider({
   const userId = (user?.sub as string) ?? "";
   const isLoggedIn = !!userId;
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
-  const [fullName, setFullName] = useState("");
-  const [cpfCnpj, setCpfCnpj] = useState("");
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
@@ -43,10 +37,6 @@ export function UserContextProvider({
         userId,
         isLoggedIn,
         isSubscriptionActive,
-        fullName,
-        setFullName,
-        cpfCnpj,
-        setCpfCnpj,
       }}
     >
       {children}
