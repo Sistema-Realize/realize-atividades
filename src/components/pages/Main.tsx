@@ -5,17 +5,18 @@ import { withUserContext, useUserContext } from "@/contexts/UserContext";
 const Main = withUserContext(() => {
   const { userId, isLoggedIn } = useUserContext();
 
-  return (<>
-    <Form userId={userId} />
-    {isLoggedIn && (<>  
-      <Link href="/api/auth/logout">
-        Logout
-      </Link>
-      <Link href="/history">
-        Histórico
-      </Link>
-    </>)}
-  </>);
-})
+  return (
+    <>
+      <Form userId={userId} />
+      {isLoggedIn && (
+        <>
+          <Link href="/api/auth/logout">Logout</Link>
+          <Link href="/history">Histórico</Link>
+          <Link href="/user">Minha conta</Link>
+        </>
+      )}
+    </>
+  );
+});
 
 export default Main;
