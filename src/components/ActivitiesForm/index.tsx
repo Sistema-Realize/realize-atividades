@@ -341,13 +341,6 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               >
                 Histórico de atividades
               </Link>
-              <button
-                type="button"
-                onClick={createPayment}
-                className="button-primary-color w-1/2 text-center py-4"
-              >
-                Fazer assinatura
-              </button>
             </div>
 
             <div className="mt-12 pt-4 border-t border-gray-200">
