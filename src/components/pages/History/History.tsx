@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useHistory } from './useHistory';
 
 export function History() {
-  const { activities, isLoading, error } = useHistory();
+  const { activities, isLoading, error, handleDownload } = useHistory();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -30,10 +30,7 @@ export function History() {
                 </div>
                 {activity.status === 'finished' && (
                   <button
-                    onClick={() => {
-                      // TODO: Implement download functionality
-                      console.log('Download activity:', activity.id);
-                    }}
+                    onClick={() => handleDownload(activity.activities)}
                   >
                     Download
                   </button>
