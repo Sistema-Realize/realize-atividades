@@ -48,12 +48,12 @@ export default async function handler(
     );
 
     console.log("[✅ SUBSCRIPTIONS RESPONSE DATA]", response.data);
-    const paymentLinkData = response.data;
+    const subscriptions = response.data;
 
     // Verifica se há alguma assinatura ativa com paymentLink definido
     let activePaymentLink = null;
-    if (paymentLinkData.totalCount > 0) {
-      activePaymentLink = paymentLinkData.data.find(
+    if (subscriptions.totalCount > 0) {
+      activePaymentLink = subscriptions.data.find(
         (sub: Subscription) => sub.status === "ACTIVE" && sub.paymentLink
       );
     }
