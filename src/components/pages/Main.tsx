@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 import Form from "@/components/pages/Form";
 import { withUserContext, useUserContext } from "@/contexts/UserContext";
 

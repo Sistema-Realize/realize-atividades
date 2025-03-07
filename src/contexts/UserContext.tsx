@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { useUser } from '@auth0/nextjs-auth0/client';
+import { createContext, useContext, useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 interface UserContextType {
   userId: string;
@@ -10,9 +10,13 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export function UserContextProvider({ children }: { children: React.ReactNode }) {
+export function UserContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { user, isLoading: isLoadingUser } = useUser();
-  const userId = user?.sub as string ?? "";
+  const userId = (user?.sub as string) ?? "";
   const isLoggedIn = !!userId;
   const [isSubscriptionActive, setIsSubscriptionActive] = useState(false);
 
@@ -20,7 +24,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
     const fetchSubscriptionStatus = async () => {
       if (!isLoggedIn) return;
       const response = await fetch(`/api/subscription`, {
-        method: 'GET'
+        method: "GET",
       });
       const data = await response.json();
       setIsSubscriptionActive(data.isActive);
@@ -29,7 +33,14 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
   }, [isLoggedIn, userId]);
 
   return (
-    <UserContext.Provider value={{ userId, isLoggedIn, isSubscriptionActive, isLoadingUser }}>
+    <UserContext.Provider
+      value={{
+        userId,
+        isLoggedIn,
+        isSubscriptionActive,
+        isLoadingUser,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
@@ -38,7 +49,7 @@ export function UserContextProvider({ children }: { children: React.ReactNode })
 export function useUserContext() {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUserContext must be used within a UserContextProvider');
+    throw new Error("useUserContext must be used within a UserContextProvider");
   }
   return context;
 }
@@ -53,4 +64,4 @@ export function withUserContext<T extends object>(
       </UserContextProvider>
     );
   };
-} 
+}
