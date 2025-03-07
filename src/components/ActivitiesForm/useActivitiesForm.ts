@@ -30,6 +30,7 @@ interface UseActivitiesFormReturn {
   isSubmitting: boolean;
   errorMessage: string | null;
   createPayment: () => Promise<void>;
+  checkPaymentLink: () => Promise<void>;
 }
 
 type FormSteps =
@@ -150,7 +151,6 @@ export function useActivitiesForm(
         }
 
         if (!isSubscriptionActive && Number(formData.amount) > 1) {
-          // TODO: Implement subscription condition here
           setFormStep("SUBSCRIPTION");
           return;
         }
@@ -159,7 +159,6 @@ export function useActivitiesForm(
 
         setFormStep("SUCCESS");
 
-        // Reset form after successful submission
         setFormData({
           files: [],
           amount: "",
@@ -192,7 +191,6 @@ export function useActivitiesForm(
       }
 
       if (data.paymentLinkUrl) {
-        // Redireciona para a URL da fatura
         window.location.href = data.paymentLinkUrl;
       } else {
         console.error("Link de pagamento não retornado.");
@@ -201,6 +199,41 @@ export function useActivitiesForm(
     } catch (error) {
       console.error("Erro na API de pagamento:", error);
       alert("Erro ao processar pagamento.");
+    }
+  };
+
+  const checkPaymentLink = async () => {
+    try {
+      const response = await fetch("/api/checkPaymentLink", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.status === 404) {
+        alert("Sem assinatura ativa, você pode enviar apenas 1 arquivo.");
+        return;
+      }
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+          errorData.error || `Erro desconhecido: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      console.log("[🔐 DATA]", data);
+
+      if (data.paymentLinkUrl) {
+        window.location.href = data.paymentLinkUrl;
+      } else {
+        console.error("Link de pagamento não retornado.");
+        alert("Falha ao obter link de pagamento.");
+      }
+    } catch (error) {
+      console.error("Erro na verificação do link de pagamento:", error);
+      alert("Erro ao processar a verificação de pagamento.");
     }
   };
 
@@ -217,5 +250,6 @@ export function useActivitiesForm(
     isSubmitting,
     errorMessage,
     createPayment,
+    checkPaymentLink,
   };
 }
