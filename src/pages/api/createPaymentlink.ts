@@ -83,6 +83,7 @@ export default async function handler(
     const paymentLinkCreationResponse = await axios.post(
       `${process.env.ASAAS_API_URL}/paymentLinks`,
       {
+        value: 60,
         billingType: "UNDEFINED",
         chargeType: "RECURRENT",
         name: "Realize-Atividades",
@@ -113,8 +114,7 @@ export default async function handler(
       console.error("[❌ ERRO AXIOS]", {
         data: error.response?.data,
         status: error.response?.status,
-        headers: error.config.headers,
-        url: error.config.url,
+        url: error.config?.url,
       });
     } else {
       console.error("[❌ ERRO DESCONHECIDO]", error);
