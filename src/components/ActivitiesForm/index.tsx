@@ -323,7 +323,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </h1>
             <p className="text-center text-muted-color mb-2">
               Aguarde um instante, a geração pode demorar alguns minutos.
-              Enquanto isso, você pode conferir seu histórico de atividades.
+              Enquanto isso, você pode conferir seu <Link href="/history">histórico de atividades</Link>.
             </p>
 
             <div className="flex flex-col items-center space-y-4 mt-8">
@@ -336,7 +336,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               </button>
 
               <Link
-                href="/"
+                href="/history"
                 className="button-secondary-color w-full md:w-3/4 py-3 rounded-md text-center"
               >
                 Histórico de atividades
@@ -348,7 +348,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 <Link href="/account" className="flex items-center">
                   <FaUserCircle className="mr-2" /> Minha conta
                 </Link>
-                <Link href="/activities" className="flex items-center">
+                <Link href="/history" className="flex items-center">
                   <FaCheckCircle className="mr-2" /> Gerenciar atividades
                 </Link>
                 <Link href="/api/auth/logout" className="flex items-center">

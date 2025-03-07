@@ -1,6 +1,7 @@
 import { useState, useCallback, ChangeEvent, useRef, useMemo } from "react";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { useUserContext } from "@/contexts/UserContext";
+import { getListActivities } from '@/utils/getListActivities';
 
 interface UploadedFile {
   name: string;
@@ -153,6 +154,13 @@ export function useActivitiesForm(
         if (!isSubscriptionActive && Number(formData.amount) > 1) {
           setFormStep("SUBSCRIPTION");
           return;
+        } else if(!isSubscriptionActive){
+          const response = await getListActivities();
+          
+          if (response.data.length > 0) {
+            setFormStep('SUBSCRIPTION');
+            return;
+          }
         }
 
         await onSubmitProps(formDataToSend);
