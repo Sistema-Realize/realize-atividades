@@ -336,7 +336,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               </button>
 
               <Link
-                href="/"
+                href="/history"
                 className="button-secondary-color w-full md:w-3/4 py-3 rounded-md text-center"
               >
                 Histórico de atividades
