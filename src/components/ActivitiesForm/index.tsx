@@ -395,19 +395,23 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
           </>
         )}
       </form>
-      <div className="mt-12 pt-4 border-t border-gray-200">
-        <div className="flex flex-col space-y-2 text-sm text-muted-color">
-          <Link href="/userProfile" className="flex items-center">
-            <FaUserCircle className="mr-2" /> Minha conta
-          </Link>
-          <Link href="/history" className="flex items-center">
-            <FaCheckCircle className="mr-2" /> Gerenciar atividades
-          </Link>
-          <Link href="/api/auth/logout" className="flex items-center">
-            <span className="mr-2">↪</span> Logout
-          </Link>
+
+      {/* Rodapé condicionado ao login do usuário */}
+      {isLoggedIn && (
+        <div className="mt-12 pt-4 border-t border-gray-200">
+          <div className="flex flex-col space-y-2 text-sm text-muted-color">
+            <Link href="/userProfile" className="flex items-center">
+              <FaUserCircle className="mr-2" /> Minha conta
+            </Link>
+            <Link href="/history" className="flex items-center">
+              <FaCheckCircle className="mr-2" /> Gerenciar atividades
+            </Link>
+            <Link href="/api/auth/logout" className="flex items-center">
+              <span className="mr-2">↪</span> Logout
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
