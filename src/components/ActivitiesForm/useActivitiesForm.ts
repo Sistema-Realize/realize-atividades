@@ -36,6 +36,7 @@ interface UseActivitiesFormReturn {
 
 type FormSteps =
   | "UPLOAD_FILES"
+  | "REUPLOAD_FILES"
   | "UPLOADED"
   | "OPTIONS"
   | "LOGIN"
@@ -134,7 +135,7 @@ export function useActivitiesForm(
     const dataToStore = {
       amount: formData.amount,
       difficulty: formData.difficulty,
-      step: 'OPTIONS'
+      step: 'REUPLOAD_FILES'
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToStore));
   }, [formData.amount, formData.difficulty]);
