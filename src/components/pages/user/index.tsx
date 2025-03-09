@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { useUserContext, withUserContext } from "@/contexts/UserContext";
 import Image from "next/image";
 import axios from "axios";
+import Link from "next/link";
+import { FaCheckCircle } from "react-icons/fa";
+import { useRouter } from "next/router";
 
 type SubscriptionData = {
   dateCreated: string;
@@ -17,6 +20,7 @@ const User = withUserContext(() => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [unsubscribing, setUnsubscribing] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchSubscriptionData = async () => {
@@ -101,7 +105,7 @@ const User = withUserContext(() => {
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-accent-color">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-accent-color">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
         {/* Logo */}
         <div className="flex justify-center mb-6">
@@ -176,6 +180,25 @@ const User = withUserContext(() => {
             Nenhuma assinatura encontrada.
           </p>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className="mt-12 pt-4 border-t border-gray-200">
+        <div className="flex flex-col space-y-2 text-sm text-muted-color">
+          <Link href="/history" className="flex items-center">
+            <FaCheckCircle className="mr-2" /> Gerenciar atividades
+          </Link>
+          <Link href="/api/auth/logout" className="flex items-center">
+            <span className="mr-2">↪</span> Logout
+          </Link>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="button-secondary-color w-1/2 text-center py-4 p"
+          >
+            Voltar
+          </button>
+        </div>
       </div>
     </div>
   );

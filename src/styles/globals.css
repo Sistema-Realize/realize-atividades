@@ -265,6 +265,44 @@ h1.welcome-title {
     height: 1.25rem;
     margin-right: 0.75rem;
   }
+
+  /* Ajustes específicos para a tela "Quase lá!" */
+  .formMobile .text-title-color {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-family: var(--Typography-Adobe-Heading);
+    color: var(--Colors-Marine-Blue);
+  }
+
+  .formMobile .text-center.mb-6.text-muted-color {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    line-height: 1.4;
+  }
+
+  .formMobile .flex.flex-col.space-y-4 {
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .formMobile .button-primary-color.w-full,
+  .formMobile .button-secondary-color.w-full {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formMobile .button-secondary-color.w-full {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -293,6 +331,26 @@ h1.welcome-title {
   .formMobile .mobile-full-width-btn {
     padding: 0.6rem !important;
     font-size: 0.85rem !important;
+  }
+
+  /* Ajustes específicos para telas muito pequenas */
+  .formMobile .text-title-color {
+    font-size: 1.5rem;
+  }
+
+  .formMobile .text-center.mb-6.text-muted-color {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+  }
+
+  .formMobile .flex.flex-col.space-y-4 {
+    width: 95%;
+  }
+
+  .formMobile .button-primary-color.w-full,
+  .formMobile .button-secondary-color.w-full {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.8rem;
   }
 }
 
