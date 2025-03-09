@@ -188,11 +188,11 @@ const userProfile = withUserContext(() => {
           <Link href="/history" className="flex items-center">
             <FaCheckCircle className="mr-2" /> Gerenciar atividades
           </Link>
-          <Link href="/api/auth/logout" className="flex items-center">
-            <span className="mr-2">↪</span> Logout
-          </Link>
           <Link href="/" className="flex items-center">
             <FaArrowLeft className="mr-2" /> Voltar
+          </Link>
+          <Link href="/api/auth/logout" className="flex items-center">
+            <span className="mr-2">↪</span> Logout
           </Link>
         </div>
       </div>
