@@ -191,8 +191,8 @@ const userProfile = withUserContext(() => {
           <Link href="/api/auth/logout" className="flex items-center">
             <span className="mr-2">↪</span> Logout
           </Link>
-          <Link href="/api/auth/logout" className="flex items-center">
-            <FaArrowLeft className="mr-2" /> Voltar
+          <Link href="/" className="flex items-center">
+            <FaArrowLeft className="mr-2" /> Voltar para o Formulário
           </Link>
         </div>
       </div>
