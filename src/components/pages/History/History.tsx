@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { FaUserCircle, FaSignOutAlt, FaDownload } from "react-icons/fa";
+import {
+  FaUserCircle,
+  FaSignOutAlt,
+  FaDownload,
+  FaArrowLeft,
+} from "react-icons/fa";
 import { useHistory } from "./useHistory";
 import Image from "next/image";
 
@@ -91,6 +96,9 @@ export function History() {
         </Link>
         <Link href="/api/auth/logout" className="footer-link">
           <FaSignOutAlt className="footer-icon" /> Logout
+        </Link>
+        <Link href="/api/auth/logout" className="flex items-center footer-link">
+          <FaArrowLeft className="mr-2" /> Voltar
         </Link>
       </div>
     </div>
