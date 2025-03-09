@@ -42,15 +42,15 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
 
         {formStep === "UPLOAD_FILES" && (
           <div className="w-full flex flex-col items-center">
-            <h1 className="welcome-title font-bold">Boas vindas!</h1>
-            <p className="text-primary-color mb-7 text-left max-w-2xl mx-auto text-lg">
+            <h1 className="welcome-title">Boas vindas!</h1>
+            <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
               Este é o{" "}
               <strong className="text-primary-color font-bold">
                 Realize Atividades
               </strong>
-              , nossa nova ferramenta de Inteligência <br /> Artificial que gera
-              atividades interativas de acordo com as competências <br />
-              do seu material didático.
+              , nossa nova ferramenta de Inteligência Artificial que gera
+              atividades interativas de acordo com as competências do seu
+              material didático.
             </p>
             <div className="my-3 w-full max-w-1000 flex flex-col items-center justify-center">
               <label

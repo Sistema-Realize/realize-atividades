@@ -49,9 +49,9 @@
   --size-2: 2px;
   --size-6: 6px;
 
-  /* Tipografia */
+  /* Tipografia Adobe Fonts */
   --Colors-Marine-Blue: #044166;
-  --Typography-Adobe-Heading: "P22 Mackinac Pro", serif;
+  --Typography-Adobe-Heading: p22-mackinac-pro, serif;
   --Typography-Headings-Font-size-Title-3: 56px;
   --Typography-Headings-Line-height-Title-3: 64px;
   --Typography-Headings-Font-size-Title-4: 40px;
@@ -122,14 +122,14 @@ h6 {
 
 /* Estilo específico para o título "Boas vindas!" com alta especificidade */
 h1.welcome-title {
-  color: #044166 !important;
-  text-align: center !important;
-  font-family: "P22 Mackinac Pro", serif !important;
-  font-size: 56px !important;
-  font-style: normal !important;
-  font-weight: 700 !important;
-  line-height: 64px !important;
-  margin-bottom: 1.5rem !important;
+  color: var(--Colors-Marine-Blue);
+  text-align: center;
+  font-family: var(--Typography-Adobe-Heading);
+  font-size: var(--Typography-Headings-Font-size-Title-3);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--Typography-Headings-Line-height-Title-3);
+  margin-bottom: 1.5rem;
 }
 
 /* Botões */
