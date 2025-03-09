@@ -4,12 +4,12 @@ export default function AdobeFonts() {
   return (
     <Script
       id="adobe-fonts"
-      strategy="beforeInteractive"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{
         __html: `
           (function(d) {
             var config = {
-              kitId: 'p22mackinac', // Substitua pelo seu ID de kit do Adobe Fonts
+              kitId: 'p22mackinac',
               scriptTimeout: 3000,
               async: true
             },
