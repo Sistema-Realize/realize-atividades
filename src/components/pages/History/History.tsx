@@ -86,7 +86,7 @@ export function History() {
       <div className="footer-divider"></div>
 
       <div className="footer-links">
-        <Link href="/user" className="footer-link">
+        <Link href="/userProfile	" className="footer-link">
           <FaUserCircle className="footer-icon" /> Minha conta
         </Link>
         <Link href="/api/auth/logout" className="footer-link">
