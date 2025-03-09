@@ -1,16 +1,44 @@
 @import "tailwindcss";
 
+/* Importação da fonte P22 Mackinac Pro */
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-Bold.woff2") format("woff2"),
+    url("/fonts/P22MackinacPro-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-Medium.woff2") format("woff2"),
+    url("/fonts/P22MackinacPro-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "P22 Mackinac Pro";
+  src: url("/fonts/P22MackinacPro-Regular.woff2") format("woff2"),
+    url("/fonts/P22MackinacPro-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Variáveis Globais */
 :root {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --background: #f8f9fa;
   --foreground: #212529;
-  --primary-color: #303940;
+  --primary-color: #044166;
 
   --secondary-color: #ffffff;
-  --accent-color: #fd314d;
-  --muted-color: #6c757d;
+  --accent-color: #ff4081;
+  --muted-color: #666666;
   --dark-muted-color: #495057;
   --border-color: #ced4da;
 
@@ -20,6 +48,16 @@
   --size-12: 12px;
   --size-2: 2px;
   --size-6: 6px;
+
+  /* Tipografia */
+  --Colors-Marine-Blue: #044166;
+  --Typography-Adobe-Heading: "P22 Mackinac Pro", serif;
+  --Typography-Headings-Font-size-Title-3: 56px;
+  --Typography-Headings-Line-height-Title-3: 64px;
+  --Typography-Headings-Font-size-Title-4: 40px;
+  --Typography-Headings-Line-height-Title-4: 48px;
+  --Typography-Headings-Font-size-Title-5: 32px;
+  --Typography-Headings-Line-height-Title-5: 40px;
 }
 
 /* Dark Mode */
@@ -51,7 +89,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Heading", sans-serif;
+  font-family: "P22 Mackinac Pro", sans-serif;
 }
 
 /* Classes de Texto */
@@ -69,6 +107,29 @@ h6 {
   font-weight: bold;
   text-align: center;
   margin-bottom: 1rem;
+}
+
+/* Estilo para o título principal */
+.main-title {
+  color: var(--Colors-Marine-Blue, #044166);
+  text-align: center;
+  font-family: var(--Typography-Adobe-Heading, "P22 Mackinac Pro");
+  font-size: var(--Typography-Headings-Font-size-Title-3, 56px);
+  font-style: normal;
+  font-weight: 700;
+  line-height: var(--Typography-Headings-Line-height-Title-3, 64px);
+}
+
+/* Estilo específico para o título "Boas vindas!" com alta especificidade */
+h1.welcome-title {
+  color: #044166 !important;
+  text-align: center !important;
+  font-family: "P22 Mackinac Pro", serif !important;
+  font-size: 56px !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  line-height: 64px !important;
+  margin-bottom: 1.5rem !important;
 }
 
 /* Botões */
@@ -103,7 +164,23 @@ h6 {
 /* Media Queries para Responsividade */
 @media (max-width: 1024px) {
   .text-title-color {
+    font-size: 1.75rem;
     margin-bottom: 0.75rem;
+  }
+
+  .formDesktop {
+    width: 96%;
+    padding: 0.75rem;
+    margin: 1.5rem auto;
+  }
+
+  .formDesktop h1 {
+    font-size: 2rem;
+  }
+
+  .formDesktop .subtitle {
+    max-width: 90%;
+    font-size: 0.9rem;
   }
 
   .button-primary-color,
@@ -115,7 +192,7 @@ h6 {
 
 @media (max-width: 768px) {
   body {
-    padding: 2rem 2rem 1rem 3rem;
+    padding: 3em 2rem 1rem 3rem;
     margin-top: -2rem;
 
     background: linear-gradient(
@@ -125,8 +202,19 @@ h6 {
     );
   }
 
-  .text-title-color {
-    text-align: center;
+  .formMobile {
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    margin: 2rem auto;
+    margin-bottom: 2rem;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .button-primary-color,
@@ -134,22 +222,115 @@ h6 {
     width: 50%;
     padding: 0.5rem;
   }
+
+  h1.welcome-title {
+    font-size: 40px !important;
+    line-height: 48px !important;
+  }
 }
 
 @media (max-width: 480px) {
-  .text-title-color {
-    font-size: 1.25rem;
-  }
-
-  .button-primary-color,
-  .button-secondary-color {
-    font-size: 0.8rem;
+  h1.welcome-title {
+    font-size: 32px !important;
+    line-height: 40px !important;
   }
 }
+
+.button-primary-color,
+.button-secondary-color {
+  font-size: 0.8rem;
+}
+
 @media (min-width: 1024px) {
-  form {
-    max-width: 900px;
-    min-width: 800px;
-    padding: 3rem;
+  .formDesktop {
+    width: 94%;
+
+    height: 80%;
+    padding: 1rem;
+    margin: 2rem auto;
+
+    border-radius: 0.75rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .formDesktop h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+
+  .formDesktop .subtitle {
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto 2rem;
+    color: black;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Área de upload */
+  .formDesktop .upload-area {
+    width: 60%;
+    height: 200px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+  }
+
+  .formDesktop .upload-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1rem;
+    color: #adb5bd;
+  }
+
+  .formDesktop .upload-text {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--muted-color);
+  }
+
+  .formDesktop .upload-link {
+    color: var(--accent-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .formDesktop .file-type {
+    font-size: 0.9rem;
+    color: var(--muted-color);
+    margin-top: 0.5rem;
+  }
+
+  /* Botões e links de cadastro/login */
+  .formDesktop .register-button {
+    margin-top: 1.5rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+  }
+
+  .formDesktop .login-text {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted-color);
+  }
+
+  .formDesktop .login-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
   }
 }

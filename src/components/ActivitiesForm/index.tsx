@@ -27,14 +27,10 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
   } = useActivitiesForm(props);
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-accent-color">
-      <form
-        onSubmit={onSubmit}
-        className="bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl mx-auto my-6 
-      "
-      >
+    <div className="formDesktop formMobile flex flex-col justify-start  items-center">
+      <form onSubmit={onSubmit} className="w-full flex flex-col items-center">
         {/* Logo added at the top of all form steps */}
-        <div className="flex justify-center mb-6">
+        <div className="mb-10 mt-10">
           <Image
             src="/realizeAtividadelogo.png"
             alt="Realize Atividade Logo"
@@ -45,23 +41,30 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         </div>
 
         {formStep === "UPLOAD_FILES" && (
-          <>
-            <h1 className="text-title-color">Boas vindas!</h1>
-            <p className="text-center mb-6 text-muted-color">
+          <div className="w-full flex flex-col items-center">
+            <h1 className="welcome-title font-bold">Boas vindas!</h1>
+            <p className="text-primary-color mb-7 text-left max-w-2xl mx-auto text-lg">
               Este é o{" "}
-              <strong className="text-primary-color">Realize Atividades</strong>
-              , nossa nova ferramenta de Inteligência Artificial que gera
-              atividades interativas de acordo com as competências do seu
-              material didático.
+              <strong className="text-primary-color font-bold">
+                Realize Atividades
+              </strong>
+              , nossa nova ferramenta de Inteligência <br /> Artificial que gera
+              atividades interativas de acordo com as competências <br />
+              do seu material didático.
             </p>
-            <div className="mb-4">
+            <div className="my-3 w-full max-w-1000 flex flex-col items-center justify-center">
               <label
                 htmlFor="files"
-                className="block text-center cursor-pointer border-dashed border-2 border-gray-300 p-6 rounded-lg"
+                className=" text-center cursor-pointer pb-10 py-20 pl-20 pr-20 rounded-lg bg-gray-100 flex flex-col items-center justify-center"
               >
-                <span className="block mb-2 text-center text-primary-color">
-                  <FaUserCircle className="inline-block text-4xl text-accent-color" />
-                  <br />
+                <Image
+                  className="mb-8"
+                  src="/CloudArrowUp.svg"
+                  alt="Upload Icon"
+                  width={70}
+                  height={70}
+                />
+                <span className="block mb-8 text-center text-primary-color font-bold mt-2">
                   Arraste e solte arquivos aqui ou{" "}
                   <span
                     style={{ color: "var(--accent-color)" }}
@@ -70,7 +73,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                     escolha o arquivo
                   </span>
                 </span>
-                <span className="text-muted-color">
+                <span className="text-muted-color mt-20  ">
                   Tipo de arquivo suportado: .pdf
                 </span>
               </label>
@@ -84,27 +87,32 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               />
             </div>
             {!isLoggedIn && (
-              <div className="text-center text-muted-color flex flex-col items-center w-full">
+              <div className="text-center text-muted-color flex flex-col items-center w-full mb-10">
                 <p>
                   <Link
                     href="/api/auth/login"
-                    className="button-secondary-color w-full block mb-4"
+                    className="text-red-500 font-bold"
                   >
-                    Cadastre-se para poder baixar arquivos
+                    <div className="flex items-center mb-4 mt-5">
+                      <span className="underline mr-2">Cadastre-se</span>
+                      <p className="text-muted-color font-normal">
+                        para poder baixar arquivos
+                      </p>
+                    </div>
                   </Link>
                 </p>
-                <p>
+                <p className="text-muted-color ">
                   Já possui cadastro?{" "}
                   <Link
                     href="/api/auth/login"
-                    className="button-primary-color w-full block mt-7"
+                    className="text-red-500 font-bold underline"
                   >
                     Faça login
                   </Link>
                 </p>
               </div>
             )}
-          </>
+          </div>
         )}
 
         {formStep === "UPLOADED" && (
@@ -323,7 +331,8 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </h1>
             <p className="text-center text-muted-color mb-2">
               Aguarde um instante, a geração pode demorar alguns minutos.
-              Enquanto isso, você pode conferir seu <Link href="/history">histórico de atividades</Link>.
+              Enquanto isso, você pode conferir seu{" "}
+              <Link href="/history">histórico de atividades</Link>.
             </p>
 
             <div className="flex flex-col items-center space-y-4 mt-8">
