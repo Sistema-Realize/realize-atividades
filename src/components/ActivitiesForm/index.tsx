@@ -217,17 +217,14 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         )}
 
         {formStep === "OPTIONS" && (
-          <div className="text-primary-color flex flex-col items-center w-full">
-            <h1
-              className="text-title-color 
-             font-bold"
-            >
+          <div className="formDesktop formMobile text-primary-color flex flex-col items-center">
+            <h1 className="welcome-title font-bold">
               Opções das
               <br />
               Atividades
             </h1>
 
-            <div className="w-full mb-6">
+            <div className="w-150 mb-6">
               <label htmlFor="amount" className="block font-medium mb-2">
                 QUANTIDADE DE ATIVIDADES *
               </label>
@@ -238,14 +235,14 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 onChange={onAmountChange}
                 min="1"
                 max="50"
-                className="w-full p-3 border border-gray-300 rounded-md"
+                className="w-150 p-3 border border-gray-300 rounded-md"
               />
               <p className="text-xs text-muted-color mt-1">
                 Escolha um número de 1 a 50
               </p>
             </div>
 
-            <div className="w-full mb-6">
+            <div className="w-150 mb-6">
               <label className="block font-medium mb-2">
                 NÍVEL DE DIFICULDADE *
               </label>
@@ -283,14 +280,14 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               <button
                 disabled={!isFormValid || isSubmitting}
                 type="submit"
-                className="button-primary-color w-full py-3 rounded-md"
+                className="button-primary-color w-150 mobile-full-width-btn"
               >
                 {isSubmitting ? "Enviando..." : "Gerar atividades"}
               </button>
               <button
                 type="button"
                 onClick={() => setFormStep("UPLOAD_FILES")}
-                className="button-secondary-color w-full py-3 rounded-md flex items-center justify-center"
+                className="button-secondary-color w-150 mobile-full-width-btn"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
