@@ -303,6 +303,36 @@ h1.welcome-title {
   .formMobile .button-secondary-color.w-full {
     font-size: 0.85rem;
   }
+
+  /* Ajustes para a tela "Suas atividades estão sendo geradas!" */
+  .formMobile .text-title-color.text-center.text-2xl {
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    font-family: var(--Typography-Adobe-Heading);
+  }
+
+  .formMobile .text-center.text-muted-color.mb-2 {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .formMobile .flex.flex-col.items-center.space-y-4 {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .formMobile .button-primary-color.w-full,
+  .formMobile .button-secondary-color.w-full {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+    font-size: 0.9rem;
+    border-radius: 0.5rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -351,6 +381,16 @@ h1.welcome-title {
   .formMobile .button-secondary-color.w-full {
     padding: 0.6rem 0.75rem;
     font-size: 0.8rem;
+  }
+
+  .formMobile .text-title-color.text-center.text-2xl {
+    font-size: 1.25rem;
+    line-height: 1.6rem;
+  }
+
+  .formMobile .text-center.text-muted-color.mb-2 {
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
   }
 }
 
