@@ -118,60 +118,102 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         )}
 
         {formStep === "UPLOADED" && (
-          <>
-            <h1 className="text-title-color">Envio de arquivos</h1>
-            <div className="bg-green-50 p-6 rounded-lg text-center mb-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 border-2 border-purple-300 mb-3">
-                <FaCheckCircle className="text-4xl text-emerald-400" />
+          <div className="flex flex-col items-center formDesktop formMobile">
+            <h1 className="welcome-title font-bold text-6xl">
+              Envio de <span className="block sm:inline">arquivos</span>
+            </h1>
+            <div className="bg-green-50 p-20 w-150 rounded-lg text-center mb-10">
+              <div className="inline-flex items-center justify-center rounded-full border-2 mb-4">
+                <Image
+                  src="/checkcircle.svg"
+                  alt="Check"
+                  width={200}
+                  height={200}
+                  className="w-10 h-10"
+                />
               </div>
               <p className="text-emerald-700 font-medium">
                 Envio de arquivos concluído!
               </p>
             </div>
-            <p className="text-primary-color font-medium mb-4 text-center text-2xl">
-              Lista de arquivos enviados
-            </p>
-            {formData.files.length > 0 && (
-              <ul>
-                {formData.files.map((file) => (
-                  <li
-                    className="text-primary-color flex justify-between items-center mb-6 p-4 border-2 border-gray-300 rounded-lg"
-                    key={file.name}
-                  >
-                    <span className="text-primary-color font-medium items-center mb-2">
-                      {file.name} ({file.size})
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => onRemoveFile(file.name)}
-                      className="button-secondary-color items-center mb-2"
+            <div className="text-left">
+              <p
+                className="text-primary-color font-medium mb-6 text-3xl"
+                style={{ fontFamily: "P22 Mackinac Pro" }}
+              >
+                Lista de arquivos enviados
+              </p>
+              {formData.files.length > 0 && (
+                <ul className="mb-8 w-150 space-y-4">
+                  {formData.files.map((file) => (
+                    <li
+                      className="text-primary-color flex justify-between items-center p-4 border-2 border-gray-300 rounded-lg"
+                      key={file.name}
                     >
-                      Remover
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+                      <span className="text-primary-color font-medium">
+                        {file.name} ({file.size})
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => onRemoveFile(file.name)}
+                        className="button-secondary-color ml-auto"
+                      >
+                        <Image
+                          src="/Trashicon.svg"
+                          alt="Trash Icon"
+                          width={20}
+                          height={20}
+                        />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
-            <div className="space-y-2 flex justify-center mb-2">
-              <div className="flex gap-2 w-full justify-center items-center flex-col">
-                <button
-                  type="button"
-                  onClick={() => setFormStep("UPLOAD_FILES")}
-                  className="button-secondary-color w-full mb-2"
-                >
-                  Enviar mais arquivos
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormStep("OPTIONS")}
-                  className="button-primary-color w-full mb-2"
-                >
-                  Continuar
-                </button>
+            <div className="flex flex-col gap-1 justify-center items-center mt-10">
+              <button
+                type="button"
+                onClick={() => setFormStep("UPLOAD_FILES")}
+                className="button-secondary-color w-full  mobile-full-width-btn"
+              >
+                Enviar mais arquivos
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormStep("OPTIONS")}
+                className="button-primary-color w-150 mobile-full-width-btn"
+              >
+                Continuar
+              </button>
+              <div className="text-center text-muted-color flex flex-col items-center w-full mb-10">
+                <div>
+                  <Link
+                    href="/api/auth/login"
+                    className="text-red-500 font-bold"
+                  >
+                    <div className="flex items-center mb-4 mt-5">
+                      <span className="underline mr-2">Cadastre-se</span>
+                      <p className="text-muted-color font-normal">
+                        para poder baixar arquivos
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+                <div>
+                  <p className="text-muted-color ">
+                    Já possui cadastro?{" "}
+                    <Link
+                      href="/api/auth/login"
+                      className="text-red-500 font-bold underline"
+                    >
+                      Faça login
+                    </Link>
+                  </p>
+                </div>
               </div>
             </div>
-          </>
+          </div>
         )}
 
         {formStep === "OPTIONS" && (
