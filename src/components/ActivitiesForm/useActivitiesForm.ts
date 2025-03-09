@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent, useRef, useMemo } from "react";
+import { useState, useCallback, ChangeEvent, useRef, useMemo, useEffect } from "react";
 import { formatFileSize } from "@/utils/formatFileSize";
 import { useUserContext } from "@/contexts/UserContext";
 import { getListActivities } from '@/utils/getListActivities';
@@ -44,6 +44,8 @@ type FormSteps =
 
 const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB in bytes
 export const DIFFICULTY_OPTIONS = ["Fácil", "Médio", "Difícil"];
+
+const STORAGE_KEY = 'activities-form-data';
 
 export function useActivitiesForm(
   props: useActivitiesFormProps
@@ -128,6 +130,19 @@ export function useActivitiesForm(
     });
   }, []);
 
+  const saveFormState = useCallback(() => {
+    const dataToStore = {
+      amount: formData.amount,
+      difficulty: formData.difficulty,
+      step: 'OPTIONS'
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToStore));
+  }, [formData.amount, formData.difficulty]);
+
+  const clearFormState = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY);
+  }, []);
+
   const onSubmit = useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
@@ -147,22 +162,26 @@ export function useActivitiesForm(
         });
 
         if (!isLoggedIn) {
+          saveFormState();
           setFormStep("LOGIN");
           return;
         }
 
         if (!isSubscriptionActive && Number(formData.amount) > 1) {
+          saveFormState();
           setFormStep("SUBSCRIPTION");
           return;
         } else if(!isSubscriptionActive){
           const response = await getListActivities();
           
           if (response.data.length > 0) {
+            saveFormState();
             setFormStep('SUBSCRIPTION');
             return;
           }
         }
 
+        clearFormState();
         await onSubmitProps(formDataToSend);
 
         setFormStep("SUCCESS");
@@ -182,7 +201,7 @@ export function useActivitiesForm(
         setIsSubmitting(false);
       }
     },
-    [formData, isFormValid, onSubmitProps, isLoggedIn, isSubscriptionActive]
+    [formData, isFormValid, onSubmitProps, isLoggedIn, isSubscriptionActive, saveFormState, clearFormState]
   );
 
   const createPayment = async () => {
@@ -244,6 +263,24 @@ export function useActivitiesForm(
       alert("Erro ao processar a verificação de pagamento.");
     }
   };
+
+  useEffect(() => {
+    const storedData = localStorage.getItem(STORAGE_KEY);
+    if (storedData) {
+      try {
+        const { amount, difficulty, step } = JSON.parse(storedData);
+        setFormData(prev => ({
+          ...prev,
+          amount,
+          difficulty
+        }));
+        setFormStep(step);
+      } catch (error) {
+        console.error('Error parsing stored form data:', error);
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+  }, []);
 
   return {
     formStep,
