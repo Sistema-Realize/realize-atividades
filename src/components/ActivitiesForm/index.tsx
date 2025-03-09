@@ -321,7 +321,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               <div className="w-full flex justify-center">
                 <Link
                   href="/api/auth/login"
-                  className="button-primary-color w-full py-3 rounded-md text-center"
+                  className="button-primary-color w-150 py-3 rounded-md text-center"
                 >
                   Quero me cadastrar
                 </Link>
@@ -329,7 +329,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               <div className="w-full flex justify-center">
                 <Link
                   href="/api/auth/login"
-                  className="button-secondary-color w-full py-3 rounded-md inline-block text-center"
+                  className="button-secondary-color w-150 py-3 rounded-md inline-block text-center"
                 >
                   Já tenho uma conta. Fazer Login
                 </Link>
@@ -339,7 +339,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         )}
 
         {formStep === "SUBSCRIPTION" && (
-          <>
+          <div className="formDesktop formMobile text-primary-color flex flex-col items-center">
             <h1 className="text-title-color">Quase lá!</h1>
             <p className="text-center mb-4 text-muted-color">
               Falta muito pouco para você gerar suas atividades! Basta acessar a
@@ -350,19 +350,19 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               <button
                 type="button"
                 onClick={createPayment}
-                className="button-primary-color w-1/2 text-center py-4"
+                className="button-primary-color w-150 text-center py-4"
               >
                 Fazer assinatura
               </button>
               <button
                 type="button"
                 onClick={() => setFormStep("OPTIONS")}
-                className="button-secondary-color w-1/2 text-center py-4 p"
+                className="button-secondary-color w-150 text-center py-4"
               >
                 Voltar
               </button>
             </div>
-          </>
+          </div>
         )}
 
         {formStep === "SUCCESS" && (
@@ -380,14 +380,14 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
               <button
                 type="button"
                 onClick={() => setFormStep("UPLOAD_FILES")}
-                className="button-primary-color w-full md:w-3/4 py-3 rounded-md text-center"
+                className="button-primary-color py-3 rounded-md text-center"
               >
                 Gerar novas atividades
               </button>
 
               <Link
                 href="/history"
-                className="button-secondary-color w-full md:w-3/4 py-3 rounded-md text-center"
+                className="button-secondary-color py-3 rounded-md text-center"
               >
                 Histórico de atividades
               </Link>
