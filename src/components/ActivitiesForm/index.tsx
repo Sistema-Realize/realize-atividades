@@ -88,7 +88,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </div>
             {!isLoggedIn && (
               <div className="text-center text-muted-color flex flex-col items-center w-full mb-10">
-                <p>
+                <div>
                   <Link
                     href="/api/auth/login"
                     className="text-red-500 font-bold"
@@ -100,16 +100,18 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                       </p>
                     </div>
                   </Link>
-                </p>
-                <p className="text-muted-color ">
-                  Já possui cadastro?{" "}
-                  <Link
-                    href="/api/auth/login"
-                    className="text-red-500 font-bold underline"
-                  >
-                    Faça login
-                  </Link>
-                </p>
+                </div>
+                <div>
+                  <p className="text-muted-color ">
+                    Já possui cadastro?{" "}
+                    <Link
+                      href="/api/auth/login"
+                      className="text-red-500 font-bold underline"
+                    >
+                      Faça login
+                    </Link>
+                  </p>
+                </div>
               </div>
             )}
           </div>
