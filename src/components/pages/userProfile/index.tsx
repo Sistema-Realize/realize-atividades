@@ -192,7 +192,7 @@ const userProfile = withUserContext(() => {
             <span className="mr-2">↪</span> Logout
           </Link>
           <Link href="/" className="flex items-center">
-            <FaArrowLeft className="mr-2" /> Voltar para o Formulário
+            <FaArrowLeft className="mr-2" /> Voltar
           </Link>
         </div>
       </div>
