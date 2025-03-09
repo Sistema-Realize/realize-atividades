@@ -68,7 +68,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                   Arraste e solte arquivos aqui ou{" "}
                   <span
                     style={{ color: "var(--accent-color)" }}
-                    className="underline"
+                    className="underline cursor-pointer text-muted-color"
                   >
                     escolha o arquivo
                   </span>
