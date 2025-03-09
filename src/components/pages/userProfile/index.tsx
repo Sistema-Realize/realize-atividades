@@ -3,7 +3,7 @@ import { useUserContext, withUserContext } from "@/contexts/UserContext";
 import Image from "next/image";
 import axios from "axios";
 import Link from "next/link";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaArrowLeft } from "react-icons/fa";
 import { useRouter } from "next/router";
 
 type SubscriptionData = {
@@ -13,7 +13,7 @@ type SubscriptionData = {
   nextDueDate: string;
 };
 
-const User = withUserContext(() => {
+const userProfile = withUserContext(() => {
   const { userId, isLoggedIn } = useUserContext();
   const [subscriptionData, setSubscriptionData] =
     useState<SubscriptionData | null>(null);
@@ -191,17 +191,13 @@ const User = withUserContext(() => {
           <Link href="/api/auth/logout" className="flex items-center">
             <span className="mr-2">↪</span> Logout
           </Link>
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="button-secondary-color w-1/2 text-center py-4 p"
-          >
-            Voltar
-          </button>
+          <Link href="/api/auth/logout" className="flex items-center">
+            <FaArrowLeft className="mr-2" /> Voltar
+          </Link>
         </div>
       </div>
     </div>
   );
 });
 
-export default User;
+export default userProfile;
