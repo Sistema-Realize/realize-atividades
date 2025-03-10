@@ -40,18 +40,34 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
           />
         </div>
 
-        {formStep === "UPLOAD_FILES" && (
+        {['UPLOAD_FILES', 'REUPLOAD_FILES'].includes(formStep) && (
           <div className="w-full flex flex-col items-center">
-            <h1 className="welcome-title">Boas vindas!</h1>
-            <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
-              Este é o{" "}
-              <strong className="text-primary-color font-bold">
-                Realize Atividades
-              </strong>
-              , nossa nova ferramenta de Inteligência Artificial que gera
-              atividades interativas de acordo com as competências do seu
-              material didático.
-            </p>
+            {formStep === 'UPLOAD_FILES' && (
+              <>
+                <h1 className="welcome-title">Boas vindas!</h1>
+                <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
+                  Este é o{" "}
+                  <strong className="text-primary-color font-bold">
+                    Realize Atividades
+                  </strong>
+                  , nossa nova ferramenta de Inteligência Artificial que gera
+                  atividades interativas de acordo com as competências do seu
+                  material didático.
+                </p>
+              </>
+            )}
+            {formStep === 'REUPLOAD_FILES' && (
+              <>
+                <h1 className="welcome-title">Reenvio de arquivos</h1>
+                <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
+                  Você já enviou arquivos anteriormente, mas precisa reenviar
+                  novamente.<br />
+                  Por questões de segurança, não podemos armazenar os arquivos
+                  enviados anteriormente.<br />
+                  Agradecemos a compreensão.
+                </p>
+              </>
+            )}
             <div className="my-3 w-full max-w-1000 flex flex-col items-center justify-center">
               <label
                 htmlFor="files"
