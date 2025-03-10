@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./button.styles.css";
 
 /* Importação da fonte P22 Mackinac Pro */
 @font-face {
@@ -40,9 +41,22 @@
   --accent-color: #ff4081;
   --muted-color: #666666;
   --dark-muted-color: #495057;
-  --border-color: #ced4da;
+  --branco: #ffffff;
 
-  --button-color-primary: #ce1c5a;
+
+  --button-color-border-primary: #ce1c5a;
+  --button-color-primary-text: #ffffff;
+  --button-color-primary-hover: #b01849;
+  --button-color-primary-disabled: #e57a9b;
+
+  --button-color-border-secondary: #ce1c5a;
+  --button-color-secondary-text: #ce1c5a;
+  --button-color-secondary: #ffffff;
+  --button-color-secondary-hover: rgba(206, 28, 90, 0.05);
+  --button-color-secondary-disabled: #e57a9b;
+
+
+
   --button-color-secondary: #ffffff;
 
   --size-12: 12px;
@@ -58,6 +72,7 @@
   --Typography-Headings-Line-height-Title-4: 48px;
   --Typography-Headings-Font-size-Title-5: 32px;
   --Typography-Headings-Line-height-Title-5: 40px;
+  --Typography-Adobe-Body: Effra;
 }
 
 /* Dark Mode */
@@ -109,87 +124,7 @@ h6 {
   margin-bottom: 1rem;
 }
 
-/* Estilo para o título principal */
-.main-title {
-  color: var(--Colors-Marine-Blue, #044166);
-  text-align: center;
-  font-family: var(--Typography-Adobe-Heading, "P22 Mackinac Pro");
-  font-size: var(--Typography-Headings-Font-size-Title-3, 56px);
-  font-style: normal;
-  font-weight: 700;
-  line-height: var(--Typography-Headings-Line-height-Title-3, 64px);
-}
-
-/* Estilo específico para o título "Boas vindas!" com alta especificidade */
-h1.welcome-title {
-  color: var(--Colors-Marine-Blue);
-  text-align: center;
-  font-family: var(--Typography-Adobe-Heading);
-  font-size: var(--Typography-Headings-Font-size-Title-3);
-  font-style: normal;
-  font-weight: 700;
-  line-height: var(--Typography-Headings-Line-height-Title-3);
-  margin-bottom: 1.5rem;
-}
-
-/* Botões */
-.button-primary-color,
-.button-secondary-color {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: var(--font-sans), sans-serif;
-}
-
-.button-primary-color {
-  background-color: var(--button-color-primary);
-  color: var(--secondary-color);
-  border: none;
-}
-
-.button-secondary-color {
-  background-color: var(--button-color-secondary);
-  color: var(--button-color-primary);
-  border: 1.5px solid var(--button-color-primary);
-}
-
 /* Media Queries para Responsividade */
-@media (max-width: 1024px) {
-  .text-title-color {
-    font-size: 1.75rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .formDesktop {
-    width: 96%;
-    padding: 0.75rem;
-    margin: 1.5rem auto;
-  }
-
-  .formDesktop h1 {
-    font-size: 2rem;
-  }
-
-  .formDesktop .subtitle {
-    max-width: 90%;
-    font-size: 0.9rem;
-  }
-
-  .button-primary-color,
-  .button-secondary-color {
-    padding: 0.4rem 0.8rem;
-    font-size: 0.9rem;
-  }
-}
-
 @media (max-width: 768px) {
   body {
     padding: 1rem;
@@ -228,15 +163,6 @@ h1.welcome-title {
 
   .formMobile label {
     font-size: 0.9rem;
-  }
-
-  /* Ajustes para os botões */
-  .formMobile .mobile-full-width-btn {
-    width: 100% !important;
-    padding: 0.75rem !important;
-    margin-bottom: 0.75rem !important;
-    font-size: 0.9rem !important;
-    border-radius: 0.5rem !important;
   }
 
   /* Ajustes para o título */
@@ -286,23 +212,6 @@ h1.welcome-title {
     width: 90%;
     margin: 0 auto;
   }
-
-  .formMobile .button-primary-color.w-full,
-  .formMobile .button-secondary-color.w-full {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 0.9rem;
-    border-radius: 0.5rem;
-    margin-bottom: 0.75rem;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .formMobile .button-secondary-color.w-full {
-    font-size: 0.85rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -328,45 +237,16 @@ h1.welcome-title {
     font-size: 0.9rem;
   }
 
-  .formMobile .mobile-full-width-btn {
-    padding: 0.6rem !important;
-    font-size: 0.85rem !important;
-  }
-
-  /* Ajustes específicos para telas muito pequenas */
-  .formMobile .text-title-color {
-    font-size: 1.5rem;
-  }
-
-  .formMobile .text-center.mb-6.text-muted-color {
-    font-size: 0.85rem;
-    padding: 0 0.5rem;
-  }
-
   .formMobile .flex.flex-col.space-y-4 {
     width: 95%;
   }
-
-  .formMobile .button-primary-color.w-full,
-  .formMobile .button-secondary-color.w-full {
-    padding: 0.6rem 0.75rem;
-    font-size: 0.8rem;
-  }
-}
-
-.button-primary-color,
-.button-secondary-color {
-  font-size: 0.8rem;
 }
 
 @media (min-width: 1024px) {
   .formDesktop {
-    width: 94%;
-
-    height: 80%;
-    padding: 1rem;
-    margin: 2rem auto;
-
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
     border-radius: 0.75rem;
     background-color: #ffffff;
     display: flex;
