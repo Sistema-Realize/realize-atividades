@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useUserContext } from "@/contexts/UserContext";
 import { FaUserCircle, FaCheckCircle } from "react-icons/fa";
 import Image from "next/image";
-
+import Button from "../button";
 type ActivitiesFormProps = {
   onSubmit: (formData: globalThis.FormData) => Promise<void>;
 };
@@ -27,10 +27,11 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
   } = useActivitiesForm(props);
 
   return (
-    <div className="formDesktop formMobile flex flex-col justify-start  items-center">
-      <form onSubmit={onSubmit} className="w-full flex flex-col items-center">
+    <div className="flex flex-col justify-start  items-center p-4">
+    <div className="formDesktop  formMobile flex flex-col justify-start  items-center">
+      <form onSubmit={onSubmit} className=" flex flex-col items-center">
         {/* Logo added at the top of all form steps */}
-        <div className="mb-10 mt-10">
+        <div className="mb-9 mt-9">
           <Image
             src="/realizeAtividadelogo.png"
             alt="Realize Atividade Logo"
@@ -41,11 +42,12 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         </div>
 
         {['UPLOAD_FILES', 'REUPLOAD_FILES'].includes(formStep) && (
-          <div className="w-full flex flex-col items-center">
+          <div className="flex flex-col items-center">
             {formStep === 'UPLOAD_FILES' && (
               <>
                 <h1 className="welcome-title">Boas vindas!</h1>
-                <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
+                
+                <p className="text-primary-color mb-9  text-center max-w-2xl mx-auto">
                   Este é o{" "}
                   <strong className="text-primary-color font-bold">
                     Realize Atividades
@@ -58,8 +60,8 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             )}
             {formStep === 'REUPLOAD_FILES' && (
               <>
-                <h1 className="welcome-title">Reenvio de arquivos</h1>
-                <p className="text-primary-color mb-10 text-center max-w-2xl mx-auto">
+                <h1 className="welcome-title mb-9">Reenvio de arquivos</h1>
+                <p className="text-primary-color mb-9 text-center max-w-2xl mx-auto text-left">
                   Você já enviou arquivos anteriormente, mas precisa reenviar
                   novamente.<br />
                   Por questões de segurança, não podemos armazenar os arquivos
@@ -68,19 +70,19 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 </p>
               </>
             )}
-            <div className="my-3 w-full max-w-1000 flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
               <label
                 htmlFor="files"
-                className=" text-center cursor-pointer pb-10 py-20 pl-20 pr-20 rounded-lg bg-gray-100 flex flex-col items-center justify-center"
+                className=" text-center cursor-pointer pb-9 pl-9 pr-9 pt-9 h-auto rounded-lg bg-gray-100 flex flex-col items-center justify-center"
               >
                 <Image
-                  className="mb-8"
+                  className="mb-9"
                   src="/CloudArrowUp.svg"
                   alt="Upload Icon"
                   width={70}
                   height={70}
                 />
-                <span className="block mb-8 text-center text-primary-color font-bold mt-2">
+                <span className="block text-center text-primary-color font-bold ">
                   Arraste e solte arquivos aqui ou{" "}
                   <span
                     style={{ color: "var(--accent-color)" }}
@@ -89,7 +91,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                     escolha o arquivo
                   </span>
                 </span>
-                <span className="text-muted-color mt-20  ">
+                <span className="text-muted-color mt-9  ">
                   Tipo de arquivo suportado: .pdf
                 </span>
               </label>
@@ -107,26 +109,22 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 <div>
                   <Link
                     href="/api/auth/login"
-                    className="text-red-500 font-bold"
+                    className="flex items-center mb-4 mt-5"
                   >
-                    <div className="flex items-center mb-4 mt-5">
-                      <span className="underline mr-2">Cadastre-se</span>
-                      <p className="text-muted-color font-normal">
-                        para poder baixar arquivos
-                      </p>
-                    </div>
+                    <span className="underline mr-2 text-red-500 font-bold">Cadastre-se</span>
+                    <p className="text-muted-color font-normal">
+                      para poder baixar arquivos
+                    </p>
                   </Link>
                 </div>
-                <div>
-                  <p className="text-muted-color ">
-                    Já possui cadastro?{" "}
-                    <Link
-                      href="/api/auth/login"
-                      className="text-red-500 font-bold underline"
-                    >
-                      Faça login
-                    </Link>
-                  </p>
+                <div className="text-muted-color flex items-center">
+                  <p className="mr-2">Já possui cadastro?</p>
+                  <Link
+                    href="/api/auth/login"
+                    className="text-red-500 font-bold underline inline-flex"
+                  >
+                    Faça login
+                  </Link>
                 </div>
               </div>
             )}
@@ -134,21 +132,21 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
         )}
 
         {formStep === "UPLOADED" && (
-          <div className="flex flex-col items-center formDesktop formMobile">
-            <h1 className="welcome-title font-bold text-6xl">
+          <div className="flex flex-col items-center formMobile gap-9 ">
+            <h1 className="welcome-title font-bold text-6xl ">
               Envio de <span className="block sm:inline">arquivos</span>
             </h1>
-            <div className="bg-green-50 p-20 w-150 rounded-lg text-center mb-10">
+            <div className="bg-green-50 p-9 w-150 rounded-lg text-center ">
               <div className="inline-flex items-center justify-center rounded-full border-2 mb-4">
                 <Image
                   src="/checkcircle.svg"
                   alt="Check"
-                  width={200}
-                  height={200}
-                  className="w-10 h-10"
+                  width={150}
+                  height={150}
+                  className="w-25 h-25"
                 />
               </div>
-              <p className="text-emerald-700 font-medium">
+              <p className="text-emerald-700 font-bold ">
                 Envio de arquivos concluído!
               </p>
             </div>
@@ -160,19 +158,20 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                 Lista de arquivos enviados
               </p>
               {formData.files.length > 0 && (
-                <ul className="mb-8 w-150 space-y-4">
+                <ul className="mb-9 w-150 space-y-4 bg-gray-100 rounded-lg p-2">
                   {formData.files.map((file) => (
                     <li
-                      className="text-primary-color flex justify-between items-center p-4 border-2 border-gray-300 rounded-lg"
+                      className="text-primary-color flex justify-between items-center ml-1 mr-1"
                       key={file.name}
                     >
                       <span className="text-primary-color font-medium">
                         {file.name} ({file.size})
                       </span>
-                      <button
+                      <Button
                         type="button"
                         onClick={() => onRemoveFile(file.name)}
-                        className="button-secondary-color ml-auto"
+                        variant="secondary"
+                        className="ml-auto"
                       >
                         <Image
                           src="/Trashicon.svg"
@@ -180,7 +179,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                           width={20}
                           height={20}
                         />
-                      </button>
+                      </Button>
                     </li>
                   ))}
                 </ul>
@@ -188,46 +187,24 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </div>
 
             <div className="flex flex-col gap-1 justify-center items-center mt-10">
-              <button
+              <Button
                 type="button"
                 onClick={() => setFormStep("UPLOAD_FILES")}
-                className="button-secondary-color w-full  mobile-full-width-btn"
+                variant="primary"
+                fullWidth
+                className="w-150"
               >
                 Enviar mais arquivos
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={() => setFormStep("OPTIONS")}
-                className="button-primary-color w-150 mobile-full-width-btn"
+                variant="secondary"
+                fullWidth
+                className="w-150"
               >
                 Continuar
-              </button>
-              <div className="text-center text-muted-color flex flex-col items-center w-full mb-10">
-                <div>
-                  <Link
-                    href="/api/auth/login"
-                    className="text-red-500 font-bold"
-                  >
-                    <div className="flex items-center mb-4 mt-5">
-                      <span className="underline mr-2">Cadastre-se</span>
-                      <p className="text-muted-color font-normal">
-                        para poder baixar arquivos
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-                <div>
-                  <p className="text-muted-color ">
-                    Já possui cadastro?{" "}
-                    <Link
-                      href="/api/auth/login"
-                      className="text-red-500 font-bold underline"
-                    >
-                      Faça login
-                    </Link>
-                  </p>
-                </div>
-              </div>
+              </Button>
             </div>
           </div>
         )}
@@ -293,17 +270,21 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             )}
 
             <div className="w-full space-y-2 mt-4 flex flex-col items-center">
-              <button
+              <Button
                 disabled={!isFormValid || isSubmitting}
                 type="submit"
-                className="button-primary-color w-150 mobile-full-width-btn"
+                variant="primary"
+                fullWidth
+                className="w-150 mobile-full-width-btn"
               >
                 {isSubmitting ? "Enviando..." : "Gerar atividades"}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={() => setFormStep("UPLOAD_FILES")}
-                className="button-secondary-color w-150 mobile-full-width-btn"
+                variant="secondary"
+                fullWidth
+                className="w-150 mobile-full-width-btn"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +301,7 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
                   <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
                 Voltar
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -335,20 +316,24 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
 
             <div className="flex flex-col space-y-4 w-full items-center">
               <div className="w-full flex justify-center">
-                <Link
+                <Button
                   href="/api/auth/login"
-                  className="button-primary-color w-full py-3 rounded-md text-center"
+                  variant="primary"
+                  fullWidth
+                  className="py-3"
                 >
                   Quero me cadastrar
-                </Link>
+                </Button>
               </div>
               <div className="w-full flex justify-center">
-                <Link
+                <Button
                   href="/api/auth/login"
-                  className="button-secondary-color w-full py-3 rounded-md inline-block text-center"
+                  variant="secondary"
+                  fullWidth
+                  className="py-3"
                 >
                   Já tenho uma conta. Fazer Login
-                </Link>
+                </Button>
               </div>
             </div>
           </>
@@ -363,20 +348,24 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </p>
 
             <div className="flex flex-col items-center space-y-4 mt-6">
-              <button
+              <Button
                 type="button"
                 onClick={createPayment}
-                className="button-primary-color w-1/2 text-center py-4"
+                variant="primary"
+                fullWidth
+                className="w-1/2 py-4"
               >
                 Fazer assinatura
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
                 onClick={() => setFormStep("OPTIONS")}
-                className="button-secondary-color w-1/2 text-center py-4 p"
+                variant="secondary"
+                fullWidth
+                className="w-1/2 py-4"
               >
                 Voltar
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -393,37 +382,56 @@ export default function ActivitiesForm(props: ActivitiesFormProps) {
             </p>
 
             <div className="flex flex-col items-center space-y-4 mt-8">
-              <button
+              <Button
                 type="button"
                 onClick={() => setFormStep("UPLOAD_FILES")}
-                className="button-primary-color w-full md:w-3/4 py-3 rounded-md text-center"
+                variant="primary"
+                fullWidth
+                className="md:w-3/4 py-3"
               >
                 Gerar novas atividades
-              </button>
+              </Button>
 
-              <Link
+              <Button
                 href="/history"
-                className="button-secondary-color w-full md:w-3/4 py-3 rounded-md text-center"
+                variant="secondary"
+                fullWidth
+                className="md:w-3/4 py-3"
               >
                 Histórico de atividades
-              </Link>
+              </Button>
             </div>
           </>
         )}
       </form>
-      <div className="mt-12 pt-4 border-t border-gray-200">
-        <div className="flex flex-col space-y-2 text-sm text-muted-color">
-          <Link href="/user" className="flex items-center">
-            <FaUserCircle className="mr-2" /> Minha conta
-          </Link>
-          <Link href="/history" className="flex items-center">
-            <FaCheckCircle className="mr-2" /> Gerenciar atividades
-          </Link>
-          <Link href="/api/auth/logout" className="flex items-center">
-            <span className="mr-2">↪</span> Logout
-          </Link>
+      {isLoggedIn && (
+        <div className="mt-12 pt-4 border-t border-gray-200">
+          <div className="flex flex-col space-y-2">
+            <Button
+              href="/user"
+              variant="secondary"
+              className="flex items-center text-sm text-muted-color hover:text-primary-color transition-colors"
+            >
+              <FaUserCircle className="mr-2" /> Minha conta
+            </Button>
+            <Button
+              href="/history"
+              variant="secondary"
+              className="flex items-center text-sm text-muted-color hover:text-primary-color transition-colors"
+            >
+              <FaCheckCircle className="mr-2" /> Gerenciar atividades
+            </Button>
+            <Button
+              href="/api/auth/logout"
+              variant="secondary"
+              className="flex items-center text-sm text-muted-color hover:text-primary-color transition-colors"
+            >
+              <span className="mr-2">↪</span> Logout
+            </Button>
+          </div>
         </div>
+      )}
       </div>
-    </div>
+      </div>
   );
 }
